@@ -1,0 +1,63 @@
+.ContactTable {
+  width: auto;
+  text-align: left;
+}
+#btn-back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none;
+}
+.material-textfield {
+  position: relative;
+}
+.label {
+  position: absolute;
+  font-size: 1rem;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: white;
+  color: gray;
+  padding: 0 0.3rem;
+  margin: 0 0.5rem;
+  transition: 0.1s ease-out;
+  transform-origin: left top;
+  pointer-events: none;
+}
+.input {
+  font-size: 1rem;
+  outline: none;
+  border: 1px solid gray;
+  border-radius: 5px;
+  color: gray;
+  transition: 0.1s ease-out;
+}
+.input:focus {
+  border-color: #6200ee;
+}
+.input:focus + label {
+  color: #6200ee;
+  top: 0;
+  transform: translateY(-50%) scale(0.9);
+}
+.input:not(:placeholder-shown) + label {
+  top: 0;
+  transform: translateY(-50%) scale(0.9);
+}
+.myNav {
+  font-weight: bold;
+  font-size: 18px;
+  color: #000000;
+  margin: 0px 20px;
+}
+
+.btn-circle {
+  width: 50px;
+  height: 50px;
+  padding: 6px 0px;
+  border-radius: 55px;
+  text-align: center;
+  font-size: 22px;
+  line-height: 1.42857;
+}
