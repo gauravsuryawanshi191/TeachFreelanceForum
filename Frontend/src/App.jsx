@@ -32,6 +32,17 @@ import DeletedAcc from "./Pages/Freelancer/DeletedAcc";
 import DeleteFreelancer from "./Pages/Freelancer/DeleteFreelancer";
 import CheckResponse from "./Pages/Freelancer/CheckResponse";
 
+//Institute imports
+import InstituteDashboardLayout from "./components/institute/Layout";
+import InstituteDashboard from "./Pages/institute/Dashboard";
+import InstituteApplicantsPerJob from "./Pages/institute/ApplicantsPerJob";
+import InstituteChangePassword from "./Pages/institute/ChangePassword";
+import InstitutePostJob from "./Pages/institute/PostJob";
+import InstituteViewAllJobs from "./Pages/institute/viewAllJobs";
+import InstituteEditJob from "./Pages/institute/EditJob";
+import InstituteDeleteJob from "./Pages/institute/DeleteJob";
+import InstituteSendMessage from "./Pages/institute/SendMessage";
+
 const App = () => {
   return (
     <>
@@ -72,6 +83,18 @@ const App = () => {
           <Route path='acc-deleted' element={<DeletedAcc/>} />
           <Route path='check-response' element={<CheckResponse/>} />
         </Route>
+		
+		<Route path='/institute/dashboard' element={<InstituteDashboardLayout/>}>
+          <Route index element={<InstituteDashboard />} />
+          <Route path='applicants-per-job' element={<InstituteApplicantsPerJob />} />
+          <Route path='change-password' element={<InstituteChangePassword />} />
+          <Route path='post-job' element={<InstitutePostJob />} />
+          <Route path='view-all-jobs' element={<InstituteViewAllJobs />} />
+          <Route path='edit-job' element={<InstituteEditJob />} />
+          <Route path='edit-job/:id' element={<InstituteEditJob />} />
+          <Route path='delete-job' element={<InstituteDeleteJob />} />
+          <Route path='send-message' element={<InstituteSendMessage />} />
+        </Route>		
       </Routes>
     </>
   );
