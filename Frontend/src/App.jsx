@@ -20,6 +20,18 @@ import GetAllFreelancerDetails from "./Pages/Admin/GetAllFreelancerDetails";
 import InstituteVerify from "./Pages/Admin/InstituteVerify";
 import DeleteInstitute from "./Pages/Admin/DeleteInstitute";
 
+//FreeLancer imports
+import FreelancerLayout from "./components/Freelancer/Layout";
+import GetApplicantDetails from "./Pages/Freelancer/Dashboard";
+import FreelancerJobsApplied from "./Pages/Freelancer/JobsApplied";
+import FreelancerChangePassword from "./Pages/Freelancer/ChangePassword";
+import AddQualification from "./Pages/Freelancer/AddQualification";
+import SearchJob from "./Pages/Freelancer/SearchJob";
+import Apply from "./Pages/Freelancer/Apply";
+import DeletedAcc from "./Pages/Freelancer/DeletedAcc";
+import DeleteFreelancer from "./Pages/Freelancer/DeleteFreelancer";
+import CheckResponse from "./Pages/Freelancer/CheckResponse";
+
 const App = () => {
   return (
     <>
@@ -48,6 +60,17 @@ const App = () => {
           <Route path="institute-delete" element={<DeleteInstitute />} />
           <Route path="change-adminpassword" element={<PasswordChange />} />
           <Route path="get-freelancer" element={<GetAllFreelancerDetails />} />
+        </Route>
+        <Route path='/freelancer/dashboard' element={<FreelancerLayout />}>
+          <Route index element={<GetApplicantDetails />} />
+          <Route path='job-applied' element={<FreelancerJobsApplied />} />
+          <Route path='AddQualification' element={<AddQualification />} />
+          <Route path='change-password' element={<FreelancerChangePassword />} />        
+          <Route path='search-job' element={<SearchJob/>} /> 
+          <Route path='apply-job' element={<Apply/>} /> 
+          <Route path='delete-freelancer' element={<DeleteFreelancer/>} /> 
+          <Route path='acc-deleted' element={<DeletedAcc/>} />
+          <Route path='check-response' element={<CheckResponse/>} />
         </Route>
       </Routes>
     </>
