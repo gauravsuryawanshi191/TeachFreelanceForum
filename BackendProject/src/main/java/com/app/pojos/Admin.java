@@ -28,7 +28,7 @@ public class Admin extends BaseEntity{
 	@Column(length = 40, unique = true)
 	private String email;
 	
-	@Column(length = 20, unique = true)
+	@Column(length = 20)
 	private String password;
 
 	public String getFirstName() {
@@ -62,5 +62,4 @@ public class Admin extends BaseEntity{
 	public void setPassword(String password) {
 		this.password = password;
 	}
-	
 }
