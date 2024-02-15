@@ -19,6 +19,6 @@ public interface AdminRepository extends JpaRepository<Admin,Long> {
 
 	@Modifying
 	@Query("Update Admin a set a.password=:p where a.email=:e")
-	Integer updatePassword(@Param("p") String pass, @Param("e") String em);	
+	Integer updatePassword(@Param("e") String em,@Param("p") String pass);	
 		
 }
