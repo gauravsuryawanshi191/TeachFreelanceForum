@@ -35,9 +35,24 @@ public class Institute extends BaseEntity {
 	@Column(length = 20)
 	private String instituteStatus;
 
+	public Institute() {
+		super();
+	}
+
+	public Institute(String instituteName, String instituteMission, String instituteEmail) {
+		super();
+		this.instituteName = instituteName;
+		this.instituteMission = instituteMission;
+		this.instituteEmail = instituteEmail;
+	}
+
+
+
 	public String getInstituteName() {
 		return instituteName;
 	}
+	
+	
 
 	public void setInstituteName(String instituteName) {
 		this.instituteName = instituteName;
