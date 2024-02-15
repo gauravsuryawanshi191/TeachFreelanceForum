@@ -29,6 +29,13 @@ public interface InstituteRepository extends JpaRepository<Institute,Long> {
 	@Modifying 
 	@Query("Update Institute i set i.instituteStatus=:e where i.id=:p")
 	Integer updateInstituteStatus(@Param("p") Long id,@Param("e") String a);
+	
+	//find institute  by email
 
+	public Institute findByInstituteEmail(String email);
+	
+	@Modifying 
+	@Query("Update Institute i set i.instituteName=:name, i.instituteMission=:mission where i.instituteEmail=:email")
+	public Integer updateInstitute(String name, String mission, String email);
 
 }
