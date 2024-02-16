@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 
 const Sidebar = () => {
- 
+  const e = JSON.parse(window.localStorage.getItem('adminName'));
   return (
     <>
       <div className='container-fluid'>
@@ -23,7 +23,7 @@ const Sidebar = () => {
                 </span>
               </a>
               <a href='/Admin/dashboard' className='d-flex align-items-center pb-3 mb-md-0 me-md-auto text-decoration-none'>
-                <span className='fs-5 d-none d-sm-inline'>Hello Admin</span>
+                <span className='fs-5 d-none d-sm-inline'>Hello {e}</span>
               </a>
               <ul className='nav nav-pills flex-column mb-sm-auto mb-0 align-items-center align-items-sm-start' id='menu'>                
                 <li>

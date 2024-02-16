@@ -2,8 +2,7 @@ import React from "react";
 import { Outlet } from "react-router-dom";
 
 const InstituteSidebar = () => {
- const e = (window.localStorage.getItem('Companyuser'));
- 
+ const e =  JSON.parse(window.localStorage.getItem('instituteName'));
   return (
     <>
       <div className='container-fluid'>
@@ -31,6 +30,12 @@ const InstituteSidebar = () => {
                   <a href='/institute/dashboard' className='nav-link px-0 align-middle pb-4'>
                     <i className='fa-solid fa-gauge'></i>
                     <span className='ms-2 d-none d-sm-inline'>Dashboard</span>
+                  </a>
+                </li>
+                <li>
+                  <a href='/institute/dashboard/edit-profile' className='nav-link px-0 align-middle pb-4'>
+                    <i className='fa-solid fa-gauge'></i>
+                    <span className='ms-2 d-none d-sm-inline'>Edit Profile</span>
                   </a>
                 </li>
                 <li>

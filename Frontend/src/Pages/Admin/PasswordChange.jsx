@@ -1,27 +1,28 @@
-import React, { useState,useEffect} from 'react';
+import React, { useState } from 'react';
 import axios from 'axios';
 
 
 export default function PasswordChange(){
-  const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
+  const email = JSON.parse(window.localStorage.getItem('adminEmail'));
+
   async function handleLogin(event){
-    event.preventDefault();
-    const data = {email, password}
+    event.preventDefault();  
+    const data = {email, password};
+
     try {
         const response="";
-        axios.post('http://localhost:8080/api/freelancer/forget', data)
+        axios.post('http://localhost:8080/api/Admin/changePassword', data)
         .then((response)=>{
           console.log(response.data);
         })
 
         if(response.data == false){
-          alert(`please provide correct email`);
+          alert("please provide correct email");
         }
         else{
           alert("password change successfully");
-          window.location.replace("/Login");
+          window.location.replace("/admin-login");
         }
     } catch (error) {
         alert(`Couldn't Log in. Error: ${error}.`);
@@ -39,11 +40,11 @@ export default function PasswordChange(){
               <form onSubmit={handleLogin}>                     
                 <div className="pb-4 pt-4" ><h2>Change Your Password</h2></div>
                 <div className="material-textfield mb-3">                    
-                  <input className="input form-control" type="email" required placeholder="" value={email} onChange={event => setEmail(event.target.value)} />
+                  <input className="input form-control" type="email" required placeholder="" value={email} readOnly />
                   <label className="label">Your Email</label>
                 </div>
                 <div className="material-textfield mb-3">
-                  <input className="input form-control"  type="password" required placeholder="" value={password} onChange={event => setPassword(event.target.value)}/>                 
+                  <input className="input form-control"  type="password" required placeholder="" value={password} onChange={event => setPassword(event.target.value)} autoComplete="off"/>                 
                   <label className="label">New Password</label>
                 </div>                                        
                 <div className="d-grid gap-2">
