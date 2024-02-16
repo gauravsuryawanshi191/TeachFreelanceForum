@@ -6,7 +6,7 @@ export default function DeleteInstitute() {
     
     const init=()=>{
         console.log('first');
-        axios.get('http://localhost:8080/api/Institute/getAll')
+        axios.get('http://localhost:8080/api/Institute/getInstitutes')
         .then(response=>{
             console.log('Printing data', response.data);
             setInstitutes(response.data);
@@ -18,7 +18,7 @@ export default function DeleteInstitute() {
     
     const editinstitute=(e)=>{
         console.log(e);
-        axios.delete(`http://localhost:8080/api/Institute/del/${e}`)
+        axios.delete(`http://localhost:8080/api/Institute/deleteInstitute/${e}`)
         .then(response=>{
             console.log('Printing data', response.data);
             window.location.replace("/Admin/dashboard/institute-delete");
@@ -49,11 +49,11 @@ export default function DeleteInstitute() {
                 {
                     institutes.map(institute => (
                     <tr key={institute.id}>
-                    <td>{institute.companyName}</td>
-                    <td>{institute.companyMission}</td>
-                    <td>{institute.email}</td>
+                    <td>{institute.instituteName}</td>
+                    <td>{institute.instituteMission}</td>
+                    <td>{institute.instituteEmail}</td>
                     <td>                                  
-                        <button style={{marginLeft: "10px"}} button onClick={(e) => editinstitute(institute.id)}className="btn btn-danger">Terminate Institute Account</button>                         
+                        <button style={{marginLeft: "10px"}} type="button" onClick={(e) => editinstitute(institute.id)} className="btn btn-danger">Delete Institute Account</button>                         
                     </td>           
                     </tr>))  
                 }  
