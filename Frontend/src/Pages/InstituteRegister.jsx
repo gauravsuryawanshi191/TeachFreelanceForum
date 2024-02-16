@@ -11,12 +11,8 @@ const InstituteRegister = () => {
 
     const saveUser = (e) => {
         e.preventDefault();
-
         const institute = { instituteName, institutePassword, instituteMission, instituteEmail, id };
-
-
-        //create
-        axios.post('http://localhost:8080/api/Institute/added', institute)
+        axios.post('http://localhost:8080/api/Institute/addNew', institute)
             .then(response => {
                 console.log("Institute added successfully", response.data);
                 alert("Institute Registered Successfully.");
@@ -29,7 +25,6 @@ const InstituteRegister = () => {
             })
 
     }
-
 
     return (
         <section className="col-lg-9 col-md-10 mx-auto d-block pt-5">
@@ -54,18 +49,18 @@ const InstituteRegister = () => {
                             </div>
                             <div className="col-sm-6">
                                 <div className="material-textfield mb-2">
-                                    <input className="input form-control" placeholder=" " type="password" value={password} onChange={(e) => setPassword(e.target.value)} /><label className="label">Password</label>
+                                    <input className="input form-control" placeholder=" " type="password" value={institutePassword} onChange={(e) => setPassword(e.target.value)} /><label className="label">Password</label>
                                 </div>
                             </div>
 
                             <div className="col-sm-6">
                                 <div className="material-textfield mb-2">
-                                    <input className="input form-control" placeholder=" " type="text" value={InstituteMission} onChange={(e) => setInstituteMission(e.target.value)} /><label className="label">Institute Mission</label>
+                                    <input className="input form-control" placeholder=" " type="text" value={instituteMission} onChange={(e) => setInstituteMission(e.target.value)} /><label className="label">Institute Mission</label>
                                 </div>
                             </div>
                             <div className="col-sm-6">
                                 <div className="material-textfield mb-2">
-                                    <input className="input form-control" placeholder=" " type="text" value={email} onChange={(e) => setEmail(e.target.value)} /><label className="label">email</label>
+                                    <input className="input form-control" placeholder=" " type="text" value={instituteEmail} onChange={(e) => setEmail(e.target.value)} /><label className="label">email</label>
                                 </div>
                             </div>
                             <div className="d-grid gap-2 p-3">

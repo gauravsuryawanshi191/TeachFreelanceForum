@@ -8,13 +8,13 @@ import UserService from "../services/UserService";
 export default function PractiseLogin(){ 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
- 
 
   async function handleLogin(event){
     event.preventDefault();
     const data = { email,  password }
     try {     
-     const response=""; axios.post('http://localhost:8080/api/freelancer/auth',data).then((response)=>{
+     const response=""; 
+     axios.post('http://localhost:8080/api/Freelancer/authenticate', data).then((response)=>{
       console.log(response.data);
      
      window.localStorage.setItem('freelancer', JSON.stringify(response.data.firstName));  
@@ -23,15 +23,8 @@ export default function PractiseLogin(){
      
       console.log((window.localStorage.getItem('freelancer')));  
          
-      if(response.data.role=="APPLICANT"){
-        alert('User Logged In Successfully.');
-        window.location.replace("/freelancer/dashboard");
-      }else if(response.data.role=="ADMIN"){
-        alert('ADMIN logged in Successfully.');
-        window.location.replace("/Admin/dashboard");
-      }
-       
-       
+        alert('Freelancer Logged In Successfully.');
+        window.location.replace("/freelancer/dashboard");      
       
      })     
       if(response.data=null){ // localStorage.setItem('id',response.data);
@@ -78,7 +71,7 @@ export default function PractiseLogin(){
                  </div>
                  <div className="col-sm">
                  <form onSubmit={handleLogin} >
-                         <div className="float-end pb-5">New User? <a href="/Register">SignUP</a>  </div>
+                         <div className="float-end pb-5">New User? <a href="/register">SignUP</a>  </div>
                          <div className="pb-4 pt-4" ><h2>Welcome Back</h2><h5>Login to Continue</h5></div>
                          <div className="material-textfield mb-3">                    
                             <input className="input form-control" type="email" required placeholder="" value={email}  onChange={event => setEmail(event.target.value)} />

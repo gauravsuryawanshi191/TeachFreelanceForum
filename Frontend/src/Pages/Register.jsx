@@ -1,7 +1,5 @@
 import { useState } from "react";
 import { useParams } from "react-router-dom";
-import { useNavigate } from 'react-router-dom';
-import UserService from "../services/UserService";
 import axios from 'axios';
 
 const Register = () => {
@@ -12,7 +10,6 @@ const Register = () => {
     const[mobileNumber, setMobileNumber] = useState('');
     const[role, setRole] = useState('');
 
-
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [password, setPassword] = useState("");
@@ -22,9 +19,6 @@ const Register = () => {
     const[pincode, setPincode] = useState('');
     const[city, setCity] = useState('');
     const[state, setState] = useState('');
-
-
-
 
     const handlePasswordChange = (event) => {
       setPassword(event.target.value);
@@ -42,8 +36,6 @@ const Register = () => {
 
     const {id} = useParams();
 
-    
-
     const saveUser = async (e) => {
         e.preventDefault();
 
@@ -59,16 +51,13 @@ const Register = () => {
             alert('Password must contain at least 8 characters, including at least 1 uppercase letter, 1 lowercase letter, and 1 number');
             return;
         }
-
         const role = "APPLICANT";
-        const user = {firstName, lastName, email, password,mobileNumber,role,id,confirmPassword,currentAddress,pincode,city,state};
-        
-         
-            //create
-            axios.post('http://localhost:8080/api/freelancer/add',user)
+        const user = {firstName, lastName, email, password,mobileNumber,role,id,confirmPassword,currentAddress,pincode,city,state};      
+        //create
+        axios.post('http://localhost:8080/api/Freelancer/add',user)
             .then(response => {
                 alert('Registration successully');
-                console.log("User aded successully",response.data);
+                console.log("Freelancer aded successully",response.data);
                 window.location.replace("/Login");
             })
         .catch(error=> {
@@ -77,25 +66,23 @@ const Register = () => {
                 window.location.replace("/");
 
             })
-    
     }
 
-   
     return(
         <section className="col-lg-9 col-md-10 mx-auto d-block pt-5">
         <div className="container">
             <div className="row">
                 <div className="col-sm d-sm-block">
                 <div><h3 className="fw-bold">TeachFreelance Forum</h3>
-                <h5 className="px-5">You are just few clicks away from Creating your Account</h5>
+                <h5 className="px-5">You are just few a clicks away from Creating your Account</h5>
                 </div>
                 <img src="./Assets/Images/HomePage/Register.png" alt="" className="img-responsive img-fluid  " />
                 </div>
                 <div className="col-sm ">
-                <form onSubmit={saveUser}>                       
+                    <form onSubmit={saveUser}>                       
                         <div><h2 className="fw-bold pb-3">Register</h2></div>
                         <div className=""><h5 className="fw-bold">Manage Your Account Efficiently</h5></div>
-                        <div className=""><h6>Lets get you all set up so you can verify personal account and begin setting up your profile</h6></div>
+                        <div className=""><h6>Lets get you all set up so you can verify your personal account and begin setting up your profile</h6></div>
                         <div className="row g-3 pt-3">
                         <div className="col-sm-6">                        
                         <div className="material-textfield mb-2">                    
@@ -107,7 +94,6 @@ const Register = () => {
                            <input className="input form-control"  placeholder=" " type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} /><label className="label">Last Name</label>
                         </div> 
                         </div>
-
                         <div className="col-sm-6">
                         <div className="material-textfield mb-2">                    
                            <input className="input form-control"  placeholder=" " type="text"  value={email} onChange={(e)=>setEmail(e.target.value)} /><label className="label">Email Id</label>
@@ -118,13 +104,11 @@ const Register = () => {
                            <input className="input form-control"  placeholder=" " type="text" value={mobileNumber} onChange={(e)=>setMobileNumber(e.target.value)} /><label className="label" required>Mobile Number</label>
                         </div> 
                         </div>                       
-
                         <div className="col-16">
                         <div className="material-textfield mb-2"> 
                         <input className="input form-control"  placeholder=" " type="text" value={currentAddress} onChange={(e)=>setCurrentAddress(e.target.value)}/><label className="label" required>Current Address</label>
                         </div>
                         </div>
-                     
                         <div className="col-md-4">                        
                         <div className="material-textfield mb-2">                    
                            <input className="input form-control"  placeholder=" " type="text" value={city} onChange={(e)=>setCity(e.target.value)}/><label className="label" required>City</label>
@@ -170,10 +154,8 @@ const Register = () => {
                             <option value="Uttar Pradesh">Uttar Pradesh</option>
                             <option value="Uttarakhand">Uttarakhand</option>
                             <option value="West Bengal">West Bengal</option>
-                        </select>                         
-                                        
+                        </select>                             
                         </div>
-
                         <div className="col-md-3">                        
                         <div className="material-textfield mb-2">                    
                            <input className="input form-control"  placeholder=" " type="text" value={pincode} onChange={(e)=>setPincode(e.target.value)}/><label className="label" required>Pincode</label>
@@ -192,9 +174,9 @@ const Register = () => {
                         <div className="col-sm-12"> <input type="checkbox" id="showPasswordCheckbox"  onChange={handleCheckboxChange}/><label htmlFor="togglePassword"> &nbsp;&nbsp; Show/Hide password</label></div>
                     </div>
                     <div className="d-grid gap-2 p-3">
-                           <button className="btn btn-success rounded-pill" type="button"  onClick={(e) => saveUser(e)}>Create Account</button>                  
-                        </div>                                                              
-                     </form>           
+                        <button className="btn btn-success rounded-pill" type="button"  onClick={(e) => saveUser(e)}>Create Account</button>                  
+                    </div>                                                              
+                    </form>           
                 </div>                
             </div>
         </div>

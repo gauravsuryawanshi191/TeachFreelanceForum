@@ -7,15 +7,14 @@ function Header() {
       <nav className='navbar navbar-expand-lg navbar-light bg-light'>
         <div className='container-fluid'>
           <a className='navbar-brand fw-bold mb-2 text-success' href='/'>
-          <h1>
             <img
               src='/Assets/Images/HomePage/Logo2.png'
               alt='logo'
-              width='50'
-              height='50'
+              width='550'
+              height='80'
               className='d-inline-block align-text-top'
             />
-            &nbsp;&nbsp; TeachFreelance Forum</h1>
+            &nbsp;&nbsp;
             
             
           </a>
@@ -39,13 +38,14 @@ function Header() {
                 <a className='nav-link myNav' aria-current='page' href='/'>
                   Home
                 </a>
-              </li>
-              <li className='nav-item'>
-                <a className='nav-link myNav' href='/jobs'>Search Jobs</a>
-              </li>              
+              </li>            
               <li className='nav-item'>
                 <a className='nav-link myNav' href='/contact' tabIndex='-1' aria-disabled='true'>Contact Us</a>
               </li>              
+              
+              <li className='nav-item'>
+                <a className='nav-link myNav' href='/admin-login'>Admin Login</a>
+              </li>  
               <li className='nav-item'>
               <a className='nav-link myNav' href='/institute-login'>
                  Institute Login

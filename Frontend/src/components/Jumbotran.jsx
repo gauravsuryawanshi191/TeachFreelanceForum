@@ -17,7 +17,7 @@ export default function Jumbotran() {
             >
               TeachFreelance Forum : It's one of the top job sites in India,
               with many institutes listing jobs online. Our only mission is
-              to bridge gap between Institute and Freelancers.
+              to bridge the gap between Institute and Freelancers.
             </p>
           </div>
           <br/>
