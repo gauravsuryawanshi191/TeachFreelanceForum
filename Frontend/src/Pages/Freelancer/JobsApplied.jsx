@@ -9,9 +9,9 @@ export default function UserJobsApplied() {
 
   console.log(e);
 
-  axios.get(`http://localhost:8080/api/Applicant/${e}`)
+  axios.get(`http://localhost:8080/api/Freelancer/${e}`)
     .then(response => {
-      console.log('Printing  data', response.data.applyingForJob);
+      console.log('Printing  data', response.data.advertisements.occupationTitle);
     })
     .catch(error => {
       console.log('Something went wrong', error);

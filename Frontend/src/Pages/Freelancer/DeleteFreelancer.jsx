@@ -3,14 +3,16 @@ import React, { useState,useEffect } from "react";
 import axios from 'axios';
 
 export default function DeleteFreelancer() {
-    const [user,setUser]=useState([]);
+
+    const [freelancer,setFreelancer]=useState([]);
+
     const init=()=>{
-        const e=JSON.parse(window.localStorage.getItem('freelancer'));
+        const e=JSON.parse(window.localStorage.getItem('email'));
         console.log(e);
-        axios.get(`http://localhost:8080/api/freelancer/${e}`)
+        axios.get(`http://localhost:8080/api/Freelancer/email/${e}`)
         .then(response=>{
-            console.log('Printing  data', response.data);
-            setUser(response.data);
+            console.log('Printing data', response.data);
+            setFreelancer(response.data);
         })
         .catch(error => {
          console.log('Something went wrong', error);
@@ -19,25 +21,28 @@ export default function DeleteFreelancer() {
 
     const saveChange=(name,id)=>{
         console.log(name,id);
-        axios.delete(`http://localhost:8080/api/freelancer/delete/${id}`)
+        axios.delete(`http://localhost:8080/api/Freelancer/delete/${id}`)
         .then(response=>{
             console.log('Printing  data', response.data);
-            setUser(response.data);
+            setFreelancer(response.data);
+            alert("Deleted Successfully");
+            window.location.replace("/");
         //fetching applicant details
+        //add -> after deleting user, redirect to home page
         })
         .catch(error => {
             console.log('Something went wrong', error);
         })  
         
-        axios.get(`http://localhost:8080//api/Applicant/${name}`)
-        .then((response) => {
-            console.log(response.data.id);
-            axios.delete(`http://localhost:8080//api/Applicant/delete/${response.data.id}`)
-            .then((res) => {
-                console.log(res);
-                window.location.replace("/");
-            })
-        })
+        // axios.get(`http://localhost:8080//api/Applicant/${name}`)
+        // .then((response) => {
+        //     console.log(response.data.id);
+        //     axios.delete(`http://localhost:8080//api/Applicant/delete/${response.data.id}`)
+        //     .then((res) => {
+        //         console.log(res);
+        //         window.location.replace("/");
+        //     })
+        // })
     }
 
     useEffect(() => {
@@ -60,17 +65,16 @@ export default function DeleteFreelancer() {
         </thead>
         <tbody>
         {
-         // user.map(user => (
-            <tr key={user.id}>
-              <td>{user.firstName}</td>
-              <td>{user.lastName}</td>
-              <td>{user.email}</td>
-              <td>{user.mobileNumber}</td>
+            <tr key={freelancer.id}>
+              <td>{freelancer.firstName}</td>
+              <td>{freelancer.lastName}</td>
+              <td>{freelancer.email}</td>
+              <td>{freelancer.mobileNumber}</td>
               <td>
-                <button style={{marginLeft: "10px"}} onClick={ () =>  saveChange(user.firstName,user.id)} className="btn btn-danger">Delete </button>
+                <button style={{marginLeft: "10px"}} onClick={ () =>  saveChange(freelancer.firstName, freelancer.id)} className="btn btn-danger">Delete </button>
               </td>
             </tr>
-         // ))
+       
         }
         </tbody>
       </table>
@@ -79,4 +83,3 @@ export default function DeleteFreelancer() {
   </div>
   )
 }
-//add -> after deleting user, redirect to home page

@@ -1,235 +1,171 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect} from "react";
 import { Link, useParams } from "react-router-dom";
-import { useEffect } from "react/cjs/react.development";
 import axios from 'axios';
-import JobService from "../../services/JobService";
-
 
 const EditJob=()=>{
+    const[occupationTitle, setOccupationTitle] = useState('');
+    const[salary, setSalary] = useState('');
+    const[durationOfEmployment, setDurationOfEmployment] = useState('');
+    const[workExperienceRequired, setWorkExperienceRequired] = useState('');
+    const[description, setDescription] = useState('');
+    const[preferedGender, setPreferedGender] = useState('');
+    const[vacancyAvailable, setVacancyAvailable] = useState('');
+    const[skill, setSkill] = useState('');
+    const {instituteId, advertisementId} = useParams();
 
-const[occupationTittle, setOccupationTittle] = useState('');
-const[numberOfEmloyeesRequired,setNumberOfEmloyeesRequired]=useState('');
-const[salary, setSalary] = useState('');
-const[durationOfEmployment, setDurationOfEmployment] = useState('');
-const[workExperienceRequired, setWorkExperienceRequired] = useState('');
-
-const[jobDiscription, setJobDiscription] = useState('');
-const[preferedSex, setPreferedSex] = useState('');
-const[vacancyAvailable, setVacancyAvailable] = useState('');
-const[skill, setSkill] = useState('');
-
-
-const {id} = useParams();
-
-const saveJob=(e)=>{
-    const postJob = {occupationTittle, numberOfEmloyeesRequired,salary, durationOfEmployment,workExperienceRequired,jobDiscription,preferedSex,vacancyAvailable,skill, id};
-    e.preventDefault();
-    JobService.create(postJob)
-    .then(
-        response => {
-            console.log("Job added successfully", response.data);           
-        }
-    )
-    .catch(error => {
-        console.log('something went wroing', error);
-    })
-  
-
-/*const saveJob=(e)=>{
-
-    
-   
-
-    const postJob = {occupationTittle, numberOfEmloyeesRequired,salary, durationOfEmployment,workExperienceRequired,jobDiscription,preferedSex,vacancyAvailable,skill, id};
-
-    e.preventDefault();
-
-    const id=(window.localStorage.getItem('edit'));
-console.log(id)
-
-
-
-    if (id) {
-        //update
-
-        
-
-        axios.put(`http://localhost:8080/api/Jobs/put/`,postJob)
-            .then(response => {
-                console.log('data updated successfully', response.data);
-                window.location.replace("/employer/dashboard/edit-job");
-            })
-            .catch(error => {
-                console.log('Something went wrong', error);
-            }) 
+    const updateJob=(e)=>{
+        const postJob = {occupationTitle, salary, durationOfEmployment, workExperienceRequired, description, preferedGender, vacancyAvailable, skill, advertisementId};
+        e.preventDefault();
+        //JobService.create(postJob)
+        axios.put(`http://localhost:8080/api/Advertisement/${instituteId}/${advertisementId}`,postJob)
+        .then(
+            response => {
+                console.log("Job updated successfully", response.data);
+                window.location.replace("/institute/dashboard/view-all-jobs");           
+            }
+        )
+        .catch(error => {
+            console.log('something went wroing', error);
+        })
     }
-else{
 
-   
-    JobService.create(postJob)
-    .then(
-        response => {
-            console.log("Job added successfully", response.data);
-           
+    useEffect(() => {
+        //console.log(id);
+        if(advertisementId) {
+            axios.get(`http://localhost:8080/api/Advertisement/get/${advertisementId}`)
+                .then(job => {
+                    setOccupationTitle(job.data.occupationTitle);
+                    setSalary(job.data.salary);
+                    setDurationOfEmployment(job.data.durationOfEmployment);
+                    setWorkExperienceRequired(job.data.workExperienceRequired);
+                    setDescription(job.data.description);
+                    setPreferedGender(job.data.preferedGender);
+                    setVacancyAvailable(job.data.vacancyAvailable);
+                    setSkill(job.data.skill);
+                })
+                .catch(error => {
+                    console.log('Something went wrong', error);
+                })
         }
-    )
-    .catch(error => {
-        console.log('something went wroing', error);
-    })
+    }, [])
 
-
-
-
-}*/
-
-
-
-    
-}
-useEffect(() => {
-    if (id) {
-
-
-        axios.get(`http://localhost:8080/api/Jobs/edit/${id}`)
-            .then(postJob => {
-                setOccupationTittle(postJob.data.occupationTittle);
-                setNumberOfEmloyeesRequired(postJob.data.numberOfEmloyeesRequired);
-                setSalary(postJob.data.salary);
-                setDurationOfEmployment(postJob.data.durationOfEmployment);
-                setWorkExperienceRequired(postJob.data.workExperienceRequired);
-                setJobDiscription(postJob.data.jobDiscription);
-                setPreferedSex(postJob.data.preferedSex);
-                setVacancyAvailable(postJob.data.vacancyAvailable);
-                setSkill(postJob.data.skill);
-            })
-            .catch(error => {
-                console.log('Something went wrong', error);
-            })
+    const handleRadioChange=(event)=>{
+        console.log(event.target.value);
+        setPreferedGender(event.target.value);
     }
-}, [])
 
-
-
-
-
-
-
-
-
-return(
-    <div className="container">
-            <h2>Edit Application</h2>
-            <hr/>
-            <form>
-                <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="occupationTittle"
-                        value={occupationTittle}
-                        onChange={(e) => setOccupationTittle(e.target.value)}
-                        placeholder="Enter Occupation Tittle"
-                    /><br></br>
-
-
-                </div>
-                <div className="form-group">
-                
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="numberOfEmloyeesRequired"
-                        value={numberOfEmloyeesRequired}
-                        onChange={(e) => setNumberOfEmloyeesRequired(e.target.value)}
-                        placeholder="Enter Number Of Emloyees Required"
-                    /><br></br>
-        
-                </div>
-                <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="salary"
-                        value={salary}
-                        onChange={(e) => setSalary(e.target.value)}
-                        placeholder="Enter Salary"
-                    /><br></br>
-
-                </div>
-                <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="durationOfEmployment"
-                        value={durationOfEmployment}
-                        onChange={(e) => setDurationOfEmployment(e.target.value)}
-                        placeholder="Enter Duration Of Employment"
-                    /><br></br>
-                </div>
-                <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="workExperienceRequired"
-                        value={workExperienceRequired}
-                        onChange={(e) => setWorkExperienceRequired(e.target.value)}
-                        placeholder="Enter Work Experience Required"
-                    /><br></br>
-                </div> <div className="form-group">
-                <div className="material-textfield mb-2"> 
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="jobDiscription"
-                        value={jobDiscription}
-                        onChange={(e) => setJobDiscription(e.target.value)}
-                        placeholder="Enter Job Discription"
-                    /><br></br>
+    return(
+        <div className="container">
+                <h3>Edit Job Advertisement</h3>
+                <hr/>
+                <form onSubmit={(e) => updateJob(e)}>
+                    <div className="form-group">
+                        <input 
+                            type="text" 
+                            className="form-control col-4"
+                            id="occupationTitle"
+                            value={occupationTitle}
+                            onChange={(e) => setOccupationTitle(e.target.value)}
+                            placeholder="Enter Occupation Title"
+                            required
+                        /><br></br>
                     </div>
-                </div>
-                 <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="preferedSex"
-                        value={preferedSex}
-                        onChange={(e) => setPreferedSex(e.target.value)}
-                        placeholder="Enter Preferred Sex"
-                    /><br></br>
-                </div> 
+                   
+                    <div className="form-group">
+                        <input 
+                            type="number" 
+                            className="form-control col-4"
+                            id="salary"
+                            value={salary}
+                            onChange={(e) => setSalary(e.target.value)}
+                            placeholder="Enter Salary"
+                        /><br></br>
 
-                <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="vacancyAvailable"
-                        value={vacancyAvailable}
-                        onChange={(e) => setVacancyAvailable(e.target.value)}
-                        placeholder="Enter Vacancy Available"
-                    /><br></br>
-                </div>
-                
-                <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="skill"
-                        value={skill}
-                        onChange={(e) => setSkill(e.target.value)}
-                        placeholder="Enter Skill"
-                    /><br></br>
-                </div>
-                <div >
-                    <button onClick={(e) => saveJob(e)} className="btn btn-primary">Edit Job Details</button>
-                </div>
-            </form>
-            <hr/>
-            <Link to="/employer/dashboard">Back to List</Link>
-        </div>
+                    </div>
+                    <div className="form-group">
+                        <input 
+                            type="number" 
+                            min={0}
+                            max={100}
+                            className="form-control col-4"
+                            id="durationOfEmployment"
+                            value={durationOfEmployment}
+                            onChange={(e) => setDurationOfEmployment(e.target.value)}
+                            placeholder="Enter Duration Of Employment"
+                            required
+                        /><br></br>
+                    </div>
+                    <div className="form-group">
+                        <input 
+                            type="number" 
+                            min={0}
+                            max={100}
+                            className="form-control col-4"
+                            id="workExperienceRequired"
+                            value={workExperienceRequired}
+                            onChange={(e) => setWorkExperienceRequired(e.target.value)}
+                            placeholder="Enter Work Experience Required"
+                            required
+                        /><br></br>
+                    </div> 
+                    <div className="form-group">
+                        <input 
+                            type="text" 
+                            className="form-control col-4"
+                            id="description"
+                            value={description}
+                            onChange={(e) => setDescription(e.target.value)}
+                            placeholder="Enter Job Description"
+                            required
+                        /><br></br>
+                    </div>
+                    <div className="form-group" style={{"color":"gray"}}>
+                        <div className="form-check">
+                            <input type="radio" id="preferedGenderMale" name="preferedGender" value="Male" className="form-check-input" onChange={handleRadioChange} checked={preferedGender==="Male"}/>
+                            <label htmlFor="preferedGenderMale" className="form-check-label">Male</label> &nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+                        <div className="form-check">
+                            <input type="radio" id="preferedGenderFemale" name="preferedGender" value="Female" className="form-check-input" onChange={handleRadioChange} checked={preferedGender==="Female"}/>
+                            <label htmlFor="preferedGenderFemale" className="form-check-label">Female</label>&nbsp;&nbsp;&nbsp;&nbsp;
+                        </div>
+                        <div className="form-check"> 
+                            <input type="radio" id="preferedGenderAny" name="preferedGender" value="Any" className="form-check-input" onChange={handleRadioChange} checked={preferedGender==="Any"}/>
+                            <label htmlFor="preferedGenderAny" className="form-check-label">Any</label>
+                        </div>
+                        <br></br>
+                    </div> 
 
-
-
-
-)}
+                    <div className="form-group">
+                        <input 
+                            type="number"
+                            min={1} 
+                            className="form-control col-4"
+                            id="vacancyAvailable"
+                            value={vacancyAvailable}
+                            onChange={(e) => setVacancyAvailable(e.target.value)}
+                            placeholder="Enter Vacancy Available"
+                            required
+                        /><br></br>
+                    </div>
+                    
+                    <div className="form-group">
+                        <input 
+                            type="text" 
+                            className="form-control col-4"
+                            id="skill"
+                            value={skill}
+                            onChange={(e) => setSkill(e.target.value)}
+                            placeholder="Enter Skill"
+                        /><br></br>
+                    </div>
+                    <div >
+                        <button type="submit" className="btn btn-primary">Save</button>
+                    </div>
+                </form>
+                <hr/>
+                <Link to="/institute/dashboard/view-all-jobs">Back to List</Link>
+            </div>
+    )
+}
 export default EditJob;

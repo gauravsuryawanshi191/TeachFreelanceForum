@@ -3,18 +3,15 @@ import axios from 'axios';
 
 const GetApplicantDetails = () => {
   
-  const [user, setUser] = useState([]);
+  const [freelancer, setFreelancer] = useState({firstName:"", lastName: "", email: "",mobileNumber:""});
   
   const init = () => {
-    
-    const e = JSON.parse(window.localStorage.getItem('freelancer'));
-    
+    const e = JSON.parse(window.localStorage.getItem('email'));
     console.log(e);
-    
-    axios.get(`http://localhost:8080/api/freelancer/${e}`)
+    axios.get(`http://localhost:8080/api/Freelancer/email/${e}`)
       .then(response => {
         console.log('Printing  data : ', response.data);
-        setUser(response.data);
+        setFreelancer(response.data);
       })
       .catch(error => {
         console.log('Something went wrong', error);
@@ -29,13 +26,13 @@ const GetApplicantDetails = () => {
       <div className="row pt-2">
         <div className="col-md-4">
           <div className="material-textfield mb-3">
-            <input type="text" className="input form-control" value={user.firstName} disabled />
+            <input type="text" className="input form-control" value={freelancer.firstName} />
             <label className="label">First Name</label>
           </div>
         </div>
         <div className="col-md-4">
           <div className="material-textfield mb-3">
-            <input type="text" className="input form-control" value={user.lastName} disabled />
+            <input type="text" className="input form-control" value={freelancer.lastName} />
             <label className="label">Last Name</label>
           </div>
         </div>
@@ -44,13 +41,13 @@ const GetApplicantDetails = () => {
       <div className="row pt-1">
         <div className="col-md-4">
           <div className="material-textfield mb-3">
-            <input type="text" className="input form-control" value={user.email} disabled />
+            <input type="text" className="input form-control" value={freelancer.email} disabled />
             <label className="label">Email Id</label>
           </div>
         </div>
         <div className="col-md-4">
           <div className="material-textfield mb-3">
-            <input type="text" className="input form-control" value={user.mobileNumber} disabled />
+            <input type="text" className="input form-control" value={freelancer.mobileNumber} disabled />
             <label className="label">Mobile Number</label>
           </div>
         </div>        

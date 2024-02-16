@@ -1,57 +1,63 @@
 
 import React, { useState, useEffect } from "react";
-import JobService from "../../services/JobService";
+import axios from "axios";
 
 const ViewAllJobs = () => {
 
   const [job, setJob] = useState([]);
+  const [instituteId, setInstituteId] = useState('');
+
   const init = () => {
-
-    console.log('first');
-    JobService.getAll()
-      .then(response => {
-        console.log('Printing  data', response.data);
-        setJob(response.data);
-      })
-      .catch(error => {
-        console.log('Something went wrong', error);
-      })
-
-  }
-
-
-  const editJob = (e) => {
-
-    window.localStorage.setItem('edit', JSON.stringify(e));
-    console.log(e);
-
-
-    window.location.replace('/institute/dashboard/edit-job/${e}');
-
-
+    console.log('init fun'); 
+    const instituteEmail = JSON.parse(window.localStorage.getItem("instituteEmail"));
+    axios.get(`http://localhost:8080/api/Institute/getInstitute/${instituteEmail}`)
+    .then(response => {
+      console.log("institute data", response.data);
+      setInstituteId(response.data.id);
+    })
+    .catch(error => {
+      console.log("something went wrong", error);
+    })
   }
 
   useEffect(() => {
-
-
     init();
-
   }, []);
+
+  useEffect(()=>{
+    if(instituteId){
+      axios.get(`http://localhost:8080/api/Advertisement/${instituteId}`)
+        .then(response => {
+          console.log('Printing data', response.data);
+          setJob(response.data);
+        })
+        .catch(error => {
+          console.log('Something went wrong', error);
+        })
+    }
+  },[instituteId])
+
+  const editJob = (jobId) => {
+    window.localStorage.setItem('edit', JSON.stringify(jobId));
+    window.location.replace(`/institute/dashboard/edit-job/${instituteId}/${jobId}`);
+  }
 
   return (
     <div className="container">
-      <h3>Job Details</h3>
+      <h3>Job Advertisement Details</h3>
       <hr />
       <div>
         <table className="table table-bordered table-striped">
           <thead className="thead-dark">
             <tr>
-              <th>Occupation Tittle </th>
-              <th>Employee Needed</th>
-              <th>Duration of Employee</th>
+              <th>Occupation Title </th>
+              <th>Vacancy Available</th>
+              <th>Salary</th>
+              <th>Duration of Employment</th>
               <th>Experience Required</th>
               <th>Job Description</th>
-              <th>Preferred Sex</th>
+              <th>Preferred Gender</th>
+              <th>Posting date</th>
               <th>Skill Required</th>
             </tr>
           </thead>
@@ -59,35 +65,25 @@ const ViewAllJobs = () => {
             {
               job.map(job => (
                 <tr key={job.id}>
-                  <td>{job.occupationTittle}</td>
-                  <td>{job.numberOfEmloyeesRequired}</td>
+                  <td>{job.occupationTitle}</td>
+                  <td>{job.vacancyAvailable}</td>
+                  <td>{job.salary==undefined?"Not Mentioned":job.salary}</td>
                   <td>{job.durationOfEmployment}</td>
                   <td>{job.workExperienceRequired}</td>
-                  <td>{job.jobDiscription}</td>
-                  <td>{job.preferedSex}</td>
-                  <td>{job.skill}</td>
-
+                  <td>{job.description}</td>
+                  <td>{job.preferedGender}</td>
+                  <td>{job.postingDate}</td>
+                  <td>{job.skill===""?"Not Mentioned":job.skill}</td>
                   <td>
-
-                    <button style={{ marginLeft: "10px" }} button onClick={(e) => editJob(job.id)} className="btn btn-success">Edit Details</button>
-
+                    <button style={{ marginLeft: "10px" }} type="button" onClick={(e) => editJob(job.id)} className="btn btn-success">Edit Details</button>
                   </td>
-
                 </tr>
-
-
-
-
               ))
-
             }
-
           </tbody>
         </table>
-
       </div>
     </div>
-
   );
 }
 export default ViewAllJobs;
