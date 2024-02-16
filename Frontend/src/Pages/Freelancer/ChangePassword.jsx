@@ -2,15 +2,16 @@ import React, { useState,useEffect} from 'react';
 import axios from 'axios';
 
 export default function ChangePassword(){
-  const [email, setEmail] = useState('');
+ // const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  
+  const email = JSON.parse(window.localStorage.getItem('email'));
   async function handleLogin(event){
     event.preventDefault();
     const data = {email, password}
     try {
-        const response="";
-      axios.post('http://localhost:8080/api/freelancer/forget', data)
+      const response="";
+  
+      axios.post('http://localhost:8080/api/Freelancer/changePassword', data)
       .then((response)=>{
         console.log(response.data);
       })
@@ -39,15 +40,15 @@ export default function ChangePassword(){
              <form onSubmit={handleLogin}>                     
                      <div className="pb-4 pt-4" ><h2>Change Your Password</h2></div>
                      <div className="material-textfield mb-3">                    
-                        <input className="input form-control" type="email" required placeholder="" value={email} onChange={event => setEmail(event.target.value)} />
+                        <input className="input form-control" type="email" required placeholder="Enter email" value={email} readOnly/>
                         <label className="label">Your Email</label>
                      </div>
                      <div className="material-textfield mb-3">
-                        <input className="input form-control"  type="password" required placeholder="" value={password} onChange={event => setPassword(event.target.value)}/>                 
+                        <input className="input form-control"  type="password" required value={password} onChange={event => setPassword(event.target.value)}/>                 
                         <label className="label">New Password</label>
                      </div>                                        
                      <div className="d-grid gap-2">
-                      <button type="submit"   className="btn btn-success" disabled={!email || !password}>Change Password</button>                 
+                      <button type="submit" className="btn btn-success" disabled={!email || !password}>Change Password</button>                 
                      </div> 
                                                             
                   </form>           
