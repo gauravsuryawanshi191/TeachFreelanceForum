@@ -76,7 +76,7 @@ const Contact = () => {
                     </td>
                     <td>
                       <div>
-                        +91-7030073595 <br /> +91- 9696689944
+                        +91-8160650031 <br /> +91-8888683669 <br/> +91-9975266596
                       </div>
                     </td>
                   </tr>
@@ -88,7 +88,7 @@ const Contact = () => {
                     </td>
                     <td>
                       <p className='pt-2'>
-                      TeachFreelance Forum , Vasudha Vihar Apartment, Prayagraj, Pin-211012
+                      TeachFreelance Forum, C-DAC ACTS, C-DAC Innovation Park, Panchavati, Pashan, Pune - 411008
                       </p>
                     </td>
                   </tr>
@@ -100,13 +100,10 @@ const Contact = () => {
                     </td>
                     <td>
                       <a href='freelance_project@gmail.com'>
-                        freelance_project@gmail.com
+                        teachfreelanceforum@gmail.com
                       </a>
                       <br />
-                      <a href='freelance_project@gmail.com'>
-                        {" "}
-                        freelance_project@gmail.com
-                      </a>
+                      
                     </td>
                   </tr>
                 </tbody>
@@ -173,8 +170,7 @@ const Contact = () => {
       <div className='pb-2'>
         <iframe
           title='Location'
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3603.3709300340092!2d81.779978515091!3d25.42585962862455!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x398534a978361b3d%3A0xe885251eeaec977!2sVasudha%20Vihar%20Complex%20Regd.!5e0!3m2!1sen!2sin!4v1678260237518!5m2!1sen!2sin"
-          
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3782.856499781422!2d73.80852827579716!3d18.535385768720335!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bc2bf40bef092f1%3A0x48c508ccaa4ef9a!2sCentre%20For%20Development%20Of%20Advanced%20Computing%2C%20Innovation%20Park!5e0!3m2!1sen!2sin!4v1708083902141!5m2!1sen!2sin"
           width='100%'
           height='350'
           style={{ border: "0" }}

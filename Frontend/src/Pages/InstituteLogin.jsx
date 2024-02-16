@@ -2,55 +2,40 @@ import React, { useState,useEffect} from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import axios from 'axios';
 
-
-// import './styles.css';
 export default function PractiseLogin(){ 
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [instituteEmail, setEmail] = useState('');
+  const [institutePassword, setPassword] = useState('');
  
-
   async function handleLogin(event){
     event.preventDefault();
-    const data = { email,  password }
+    const data = { instituteEmail,  institutePassword }
+    console.log(data)
     try {     
-     const response=""; axios.post('http://localhost:8080/api/Institute/auth',data).then((response)=>{
-      console.log(response.data);
-     
-     window.localStorage.setItem('Companyuser', JSON.stringify(response.data.companyName));  
-     window.localStorage.setItem('Companyemail', JSON.stringify(response.data.email)); 
-
-     
-      console.log((window.localStorage.getItem('user')));  
-         
-      if(response.data.companyStatus=="APPROVED"){
-        alert(`Company Logged In Successfully.`);
-
-        
-        
-
-        
-        window.location.replace("/institute/dashboard");
-      }else if(response.data.companyStatus=="NOTAPPROVED"){
-        alert(`EITHER CREDENTIALS WRONG/PENDING FOR APPROVAL.LOGIN AFTER SOME TIME`);
-        window.location.replace("/institute-login");
-      }
-       
-       
+      const response=""; 
+      console.log(data)
+      axios.post('http://localhost:8080/api/Institute/authenticate', data)
+        .then((response)=>{
+          console.log(response.data);
+          window.localStorage.setItem('instituteName', JSON.stringify(response.data.instituteName));  
+          window.localStorage.setItem('instituteEmail', JSON.stringify(response.data.instituteEmail)); 
+          console.log((window.localStorage.getItem('instituteName')));         
+            if(response.data.instituteStatus=="APPROVED"){
+              alert(`Institute Logged In Successfully.`);
+              window.location.replace("/institute/dashboard");
+            }else if(response.data.instituteStatus=="NOTAPPROVED"){
+              alert(`EITHER CREDENTIALS WRONG/PENDING FOR APPROVAL.LOGIN AFTER SOME TIME`);
+              window.location.replace("/institute-login");
+            }      
+        })     
+        if(response.data=null){
+              alert(`invalid credentials!!enter valid username/password`)
+          }    
+    }catch (error) {
       
-     })     
-      if(response.data=null){ // localStorage.setItem('id',response.data);
-     // window.location.replace("/Dashboard");
-     alert(`invalid credentials!!enter valid username/password`)
- 
-      }
-     
-    } catch (error) {
-     
-      }
+    }
     }  
-  return (<>
-    {}
-
+  return (
+  <>
     <section className="col-lg-7 col-md-10 mx-auto d-block pt-5">
         <div className="container">
              <div className="row">
@@ -59,21 +44,21 @@ export default function PractiseLogin(){
                  </div>
                  <div className="col-sm">
                  <form onSubmit={handleLogin} >
-                         <div className="float-end pb-5">Wants to Hire? <a href="/institute-register">SignUP</a>  </div>
+                         <div className="float-end pb-5">New Institute? <a href="/institute-register">SignUP</a>  </div>
                          <div className="pb-4 pt-4" ><h2>Welcome Back</h2><h5>Login to Continue</h5></div>
                          <div className="material-textfield mb-3">                    
-                            <input className="input form-control" type="email" required placeholder="" value={email}  onChange={event => setEmail(event.target.value)} />
-                            <label className="label">UserId or Email</label>
+                            <input className="input form-control" type="email" required placeholder="" value={instituteEmail} onChange={event => setEmail(event.target.value)} />
+                            <label className="label">Email id</label>
                          </div>
                          <div className="material-textfield mb-3">
-                            <input className="input form-control"  type="password" required placeholder="" value={password} onChange={event => setPassword(event.target.value)}/>                  
+                            <input className="input form-control"  type="password" required placeholder="" value={institutePassword} onChange={event => setPassword(event.target.value)} autoComplete='off'/>                  
                             <label className="label">Password</label>
                          </div> 
                          <div className="m-2">                    
                             <Link className="back-link" to="/forget">Forgot Password</Link>
                          </div>                   
                          <div className="d-grid gap-2">
-                          <button type="submit"   className="btn btn-success" disabled={!email || !password}>Login</button>                 
+                          <button type="submit" className="btn btn-success" disabled={!instituteEmail || !institutePassword}>Login</button>                 
                          </div> 
                          <div className="mt-3">
                              <p className="text-center">Sign in with 
@@ -87,6 +72,6 @@ export default function PractiseLogin(){
              </div>
          </div>
       </section>
-         </>
+    </>
   )
 }

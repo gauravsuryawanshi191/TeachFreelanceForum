@@ -12,7 +12,7 @@ function Footer() {
                   <i className='fas fa-gem me-3'></i>TeachFreelance Forum Portal
                 </h6>
                 <p style={{ textAlign: "justify" }}>
-                  TeachFreelance Forum : TeachFreelance Forum Portal is a one-stop solution
+                  TeachFreelance Forum : This Portal is a one-stop solution
                   that bridges the gap between institutes and freelancers.
                 </p>
               </div>
@@ -26,11 +26,6 @@ function Footer() {
                 <p>
                   <a href='/register' className='text-reset'>
                     Register
-                  </a>
-                </p>
-                <p>
-                  <a href='/jobs' className='text-reset'>
-                    Search Jobs
                   </a>
                 </p>
               </div>
@@ -73,7 +68,7 @@ function Footer() {
                   <a href='/' className='me-4 text-reset'>
                     <i className='fab fa-linkedin'></i>
                   </a>
-                  <a href='/' className='me-4 text-reset'>
+                  <a href='https://github.com/gauravsuryawanshi191/TeachFreelanceForum' className='me-4 text-reset'>
                     <i className='fab fa-github'></i>
                   </a>
                 </div>
@@ -82,7 +77,9 @@ function Footer() {
           </div>
         </section>
         <div className='text-center p-2 bg-secondary text-white'>
-          Designed by <br/> TechFreelance Forum team
+        <span> © 2024 TechFreelance Forum. All rights are reserved</span>
+          
+
         </div>
       </footer>
     </>

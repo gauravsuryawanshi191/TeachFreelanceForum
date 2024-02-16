@@ -9,7 +9,7 @@ const getAll = () => {
   };
   
   const get = (id) => {
-    return httpClient.get(`${id}`);
+    return httpClient.get(`/${id}`);
   };
   const getBySkill = (skill) => {
     return httpClient.get(`${skill}`);
