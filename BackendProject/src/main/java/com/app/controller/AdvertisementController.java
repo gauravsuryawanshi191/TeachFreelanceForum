@@ -28,55 +28,58 @@ public class AdvertisementController {
 	private AdvertisementService advertisementService;
 
 	public AdvertisementController() {
-
 		System.out.println("in ctor of " + getClass());
 	}
 
-	@PostMapping
-	public Advertisement addAdvertisementDetails(@RequestBody Advertisement j) {
-
-		System.out.println("in add emp " + j);
-		return advertisementService.addNewAdvertisement(j);
-
+	@PostMapping("/{instituteId}")
+	public Advertisement addAdvertisementDetails(@PathVariable Long instituteId, @RequestBody Advertisement advertisement) {
+		System.out.println("in add emp " + advertisement);
+		return advertisementService.addNewAdvertisement(instituteId, advertisement);
+	}
+	
+	//for institute
+	@GetMapping("/{instituteId}")
+	public List<Advertisement> getInstituteAdvertisements(@PathVariable Long instituteId) {
+		System.out.println("in get Advertisement of specific institute");
+		return advertisementService.fetchInstituteAdvertisements(instituteId);
 	}
 
+	//for freelancer
 	@GetMapping
 	public List<Advertisement> getAllAdvertisementDetails() {
-
 		System.out.println("in get all Advertisements");
 		return advertisementService.getAllAdvertisement();
-
+	}
+	
+	//get advertisement for update operation
+	@GetMapping("/get/{advertisementId}")
+	public Advertisement getAdvertisementDetails(@PathVariable Long advertisementId) {
+		System.out.println("in get specific Advertisement details");
+		return advertisementService.fetchAdvertisementDetails(advertisementId);
 	}
 
-	@GetMapping("/{skill}")
-	public Advertisement getAdvertisementDetailsBySkill(@PathVariable String skill) {
+//	@GetMapping("/{skill}")
+//	public Advertisement getAdvertisementDetailsBySkill(@PathVariable String skill) {
+//		System.out.println("in skill methods");
+//		return advertisementService.getAdvertisementName(skill);
+//	}
 
-		System.out.println("in skill methods");
-
-		return advertisementService.getAdvertisementName(skill);
-
-	}
-
-	@DeleteMapping("/{id}")
-	public String deleteAdvertisementById(@PathVariable Long id) {
-		
-		advertisementService.removeAdvertisementById(id);
-
+	@DeleteMapping("/{advertisementId}")
+	public String deleteAdvertisementById(@PathVariable Long advertisementId) {
+		advertisementService.removeAdvertisementById(advertisementId);
 		return "deleted";
-
 	}
 
-	@GetMapping("/edit/{Id}")
-	public ResponseEntity<?> getAdvertisementDetails(@PathVariable Long Id) {
-		System.out.println("in get Advertisement dtls " + Id);
+	@PutMapping("/{instituteId}/{advertisementId}")
+	public ResponseEntity<?> editAdvertisementDetails(@PathVariable Long instituteId,@PathVariable Long advertisementId, @RequestBody Advertisement advertisement) {
+		System.out.println("in update Advertisement " + instituteId + advertisementId);
 		// try {
 		// invoke service layer's method
-		return new ResponseEntity<>(advertisementService.fetchAdvertisementDetails(Id), HttpStatus.OK);
+		return new ResponseEntity<>(advertisementService.updateAdvertisementDetails(instituteId, advertisementId, advertisement), HttpStatus.OK);
 //		} catch (RuntimeException e) {
 //			System.out.println("err in get emp dtls " + e);
 //			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
 //		}
-
 	}
 
 	@PutMapping("/put")
@@ -87,11 +90,9 @@ public class AdvertisementController {
 		return advertisementService.addOrUpdateFreelancerDetails(e);
 	}
 
-	@GetMapping("/get/{AdvertisementDescription}")
-	public List<Advertisement> getApplyDetails(@PathVariable String AdvertisementDiscription) {
-		System.out.println("in applicant details methods");
-		return advertisementService.getDetail(AdvertisementDiscription);
-
-	}
-
+//	@GetMapping("/get/{AdvertisementDescription}")
+//	public List<Advertisement> getApplyDetails(@PathVariable String AdvertisementDiscription) {
+//		System.out.println("in applicant details methods");
+//		return advertisementService.getDetail(AdvertisementDiscription);
+//	}
 }

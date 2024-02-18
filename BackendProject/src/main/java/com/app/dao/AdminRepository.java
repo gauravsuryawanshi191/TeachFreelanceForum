@@ -6,12 +6,14 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import com.app.pojos.Admin;
 
+@Repository
 public interface AdminRepository extends JpaRepository<Admin,Long> {
 	
-	Optional<Admin> findByFirstNameAndLastName(String firstName, String lastName);
+	//Optional<Admin> findByFirstNameAndLastName(String firstName, String lastName);
 	
 	Optional<Admin> findByEmailAndPassword(String email, String pwd);
 	

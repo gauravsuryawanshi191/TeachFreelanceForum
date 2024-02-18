@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 
 import com.app.pojos.Freelancer;
 import com.app.pojos.Institute;
-
+@Repository
 public interface InstituteRepository extends JpaRepository<Institute,Long> {
 
 //	@Query("select f from Freelancer f left join fetch f.advertisements a where f.id = a.applicants.freelancer_id "
@@ -28,11 +28,14 @@ public interface InstituteRepository extends JpaRepository<Institute,Long> {
 	//Approving status of institute by admin
 	@Modifying 
 	@Query("Update Institute i set i.instituteStatus=:e where i.id=:p")
-	Integer updateInstituteStatus(@Param("p") Long id,@Param("e") String a);
+	Integer updateInstituteStatus(@Param("p") Long id, @Param("e") String a);
 	
 	//find institute  by email
-
-	public Institute findByInstituteEmail(String email);
+	public Optional<Institute> findByInstituteEmail(String email);
+	
+	@Modifying
+	@Query("Update Institute i set i.institutePassword=:p where i.instituteEmail=:e")
+	Integer updatePassword(@Param("p") String pass, @Param("e") String em);
 	
 	@Modifying 
 	@Query("Update Institute i set i.instituteName=:name, i.instituteMission=:mission where i.instituteEmail=:email")
