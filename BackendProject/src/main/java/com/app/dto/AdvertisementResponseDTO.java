@@ -4,11 +4,6 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
-
-import org.springframework.format.annotation.DateTimeFormat;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -24,26 +19,17 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class AdvertisementDTO{
+public class AdvertisementResponseDTO{
 	@JsonProperty(access = Access.READ_ONLY)
 	private Long id;
-	@NotBlank(message = "Occupation Title is required")
 	private String occupationTitle;
-	//@NotEmpty(message = "Please enter available vacancies")
 	private Integer vacancyAvailable;
-	//@NotEmpty(message = "Please enter salary")
 	private Double salary;
-	//@NotEmpty(message = "Please enter duration of employment")
 	private Integer durationOfEmployment;
-	//@NotEmpty(message = "Please enter work experience required")
 	private Double workExperienceRequired;
-	@NotBlank(message = "Job Description is required")
 	private String description;
-	@NotBlank(message = "Please select prefered gender")
 	private String preferedGender;
-	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate postingDate;
-	@NotBlank(message = "Skills are required")
 	private String skill;
 
 	//owning -> child

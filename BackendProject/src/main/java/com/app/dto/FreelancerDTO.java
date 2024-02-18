@@ -36,7 +36,7 @@ public class FreelancerDTO{
 	private String email;
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@NotBlank(message = "Password required")
-	@Pattern(regexp = "(/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)", message = "Invalid password.Password must contain one capital letter,one special character and one digit.")
+	//@Pattern(regexp = "(/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)", message = "Invalid password.Password must contain one capital letter,one special character and one digit.")
 	@Length(min = 8,message = "Password length must be atleast of 8 characters.")
 	private String password;
 	@NotBlank(message = "Password required")
@@ -52,7 +52,7 @@ public class FreelancerDTO{
 	@NotBlank(message = "Current Address is required")
 	private String currentAddress;
 	private Double experience;
-	private Integer graduationMarks;
+	private Double graduationMarks;
 	private Integer passoutYear;
 	private String qualification;
 	private String university;

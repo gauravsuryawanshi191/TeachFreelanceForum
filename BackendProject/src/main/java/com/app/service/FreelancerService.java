@@ -27,4 +27,8 @@ public interface FreelancerService {
 	// for admin to view all freelancers
 	List<FreelancerDTO> getAllFreelancer();
 
+	Integer applyToJob(Long free_id, Long adv_id);
+
+	FreelancerDTO getFreelancerById(Long id);
+
 }

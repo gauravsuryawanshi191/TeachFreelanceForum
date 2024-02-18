@@ -26,7 +26,7 @@ public class InstituteResponse extends BaseEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "institute_id", nullable = true)
 	private Institute institute;
-	
+
 	@ToString.Exclude
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "freelancer_id", nullable = true)
@@ -35,44 +35,45 @@ public class InstituteResponse extends BaseEntity {
 	@Column(length = 100)
 	private String comment;
 
-//	public InstituteResponse(Institute institute, Freelancer freelancer, String comment) {
-//		super();
-//		this.institute = institute;
-//		this.freelancer = freelancer;
-//		this.comment = comment;
-//	}
-//
-//	public InstituteResponse() {
-//		super();
-//	}
+	// public InstituteResponse(Institute institute, Freelancer freelancer, String
+	// comment) {
+	// super();
+	// this.institute = institute;
+	// this.freelancer = freelancer;
+	// this.comment = comment;
+	// }
 
-//	public Institute getInstitute() {
-//		return institute;
-//	}
-//
-//	public void setInstitute(Institute institute) {
-//		this.institute = institute;
-//	}
-//
-//	public Freelancer getFreelancer() {
-//		return freelancer;
-//	}
-//
-//	public void setFreelancer(Freelancer freelancer) {
-//		this.freelancer = freelancer;
-//	}
-//
-//	public String getComment() {
-//		return comment;
-//	}
-//
-//	public void setComment(String comment) {
-//		this.comment = comment;
-//	}
+	// public InstituteResponse() {
+	// super();
+	// }
 
-//	@Override
-//	public String toString() {
-//		return "InstituteResponse [comment=" + comment + "]";
-//	}
-	
+	// public Institute getInstitute() {
+	// return institute;
+	// }
+
+	// public void setInstitute(Institute institute) {
+	// this.institute = institute;
+	// }
+
+	// public Freelancer getFreelancer() {
+	// return freelancer;
+	// }
+
+	// public void setFreelancer(Freelancer freelancer) {
+	// this.freelancer = freelancer;
+	// }
+
+	// public String getComment() {
+	// return comment;
+	// }
+
+	// public void setComment(String comment) {
+	// this.comment = comment;
+	// }
+
+	// @Override
+	// public String toString() {
+	// return "InstituteResponse [comment=" + comment + "]";
+	// }
+
 }

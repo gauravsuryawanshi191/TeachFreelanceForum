@@ -1,10 +1,11 @@
 package com.app.controller;
 
-import java.util.List;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,11 +16,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.pojos.Advertisement;
+import com.app.dto.AdvertisementDTO;
+import com.app.dto.ApiResponse;
 import com.app.service.AdvertisementService;
 
 @CrossOrigin(origins = "*")
 //http://localhost:3000
+@Validated
 @RestController
 @RequestMapping("/api/Advertisement")
 public class AdvertisementController {
@@ -32,67 +35,69 @@ public class AdvertisementController {
 	}
 
 	@PostMapping("/{instituteId}")
-	public Advertisement addAdvertisementDetails(@PathVariable Long instituteId, @RequestBody Advertisement advertisement) {
-		System.out.println("in add emp " + advertisement);
-		return advertisementService.addNewAdvertisement(instituteId, advertisement);
+	public ResponseEntity<?> addAdvertisementDetails(@Valid @PathVariable Long instituteId,
+			@Valid @RequestBody AdvertisementDTO advertisementDto) {
+		System.out.println("in add emp " + advertisementDto+"  id"+instituteId);
+		try {
+		return new ResponseEntity<>(advertisementService.addNewAdvertisement(instituteId, advertisementDto),
+				HttpStatus.CREATED);
+		}
+		catch (RuntimeException e) {
+			System.out.println("in catch " + e.getMessage());
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ApiResponse(e.getMessage()));
+		}
+
 	}
-	
-	//for institute
+
+	// for institute
 	@GetMapping("/{instituteId}")
-	public List<Advertisement> getInstituteAdvertisements(@PathVariable Long instituteId) {
-		System.out.println("in get Advertisement of specific institute");
-		return advertisementService.fetchInstituteAdvertisements(instituteId);
+	public ResponseEntity<?> getInstituteAdvertisements(@Valid @PathVariable Long instituteId) {
+		System.out.println("in get Advertisement of specific institute " + instituteId);
+		return ResponseEntity.status(HttpStatus.OK).body(advertisementService.fetchInstituteAdvertisements(instituteId));
 	}
 
-	//for freelancer
+	// for freelancer
 	@GetMapping
-	public List<Advertisement> getAllAdvertisementDetails() {
+	public ResponseEntity<?> getAllAdvertisementDetails() {
 		System.out.println("in get all Advertisements");
-		return advertisementService.getAllAdvertisement();
-	}
-	
-	//get advertisement for update operation
-	@GetMapping("/get/{advertisementId}")
-	public Advertisement getAdvertisementDetails(@PathVariable Long advertisementId) {
-		System.out.println("in get specific Advertisement details");
-		return advertisementService.fetchAdvertisementDetails(advertisementId);
+		return new ResponseEntity<>(advertisementService.getAllAdvertisement(), HttpStatus.OK);
 	}
 
-//	@GetMapping("/{skill}")
-//	public Advertisement getAdvertisementDetailsBySkill(@PathVariable String skill) {
-//		System.out.println("in skill methods");
-//		return advertisementService.getAdvertisementName(skill);
-//	}
+	// get advertisement for update operation
+	@GetMapping("/get/{advertisementId}")
+	public ResponseEntity<?> getAdvertisementDetails(@PathVariable Long advertisementId) {
+		System.out.println("in get specific Advertisement details");
+		try {
+			return new ResponseEntity<>(advertisementService.fetchAdvertisementDetails(advertisementId), HttpStatus.OK);
+		} catch (RuntimeException e) {
+			System.out.println("in catch " + e.getMessage());
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
+		}
+
+	}
 
 	@DeleteMapping("/{advertisementId}")
-	public String deleteAdvertisementById(@PathVariable Long advertisementId) {
+	public ResponseEntity<?> deleteAdvertisementById(@PathVariable Long advertisementId) {
 		advertisementService.removeAdvertisementById(advertisementId);
-		return "deleted";
+		return new ResponseEntity<>("deleted", HttpStatus.OK);
 	}
 
 	@PutMapping("/{instituteId}/{advertisementId}")
-	public ResponseEntity<?> editAdvertisementDetails(@PathVariable Long instituteId,@PathVariable Long advertisementId, @RequestBody Advertisement advertisement) {
+	public ResponseEntity<?> editAdvertisementDetails(@PathVariable Long instituteId,
+			@PathVariable Long advertisementId, @RequestBody AdvertisementDTO advertisementDto) {
 		System.out.println("in update Advertisement " + instituteId + advertisementId);
-		// try {
-		// invoke service layer's method
-		return new ResponseEntity<>(advertisementService.updateAdvertisementDetails(instituteId, advertisementId, advertisement), HttpStatus.OK);
-//		} catch (RuntimeException e) {
-//			System.out.println("err in get emp dtls " + e);
-//			return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-//		}
+		
+		return new ResponseEntity<>(
+				advertisementService.updateAdvertisementDetails(instituteId, advertisementId, advertisementDto),
+				HttpStatus.OK);
 	}
 
 	@PutMapping("/put")
-	public Advertisement updateAdvertisementDetails(@RequestBody Advertisement e) // de-serial (un marshalling)
+	public ResponseEntity<?> updateAdvertisementDetails(@RequestBody AdvertisementDTO e) // de-serial (un marshalling)
 	{
 		// e : DETACHED POJO , containing updated state
-		System.out.println("in add Advertisement " + e);
-		return advertisementService.addOrUpdateFreelancerDetails(e);
+		System.out.println("in add AdvertisementDTO " + e);
+		return new ResponseEntity<>(advertisementService.addOrUpdateFreelancerDetails(e), HttpStatus.CREATED);
 	}
-
-//	@GetMapping("/get/{AdvertisementDescription}")
-//	public List<Advertisement> getApplyDetails(@PathVariable String AdvertisementDiscription) {
-//		System.out.println("in applicant details methods");
-//		return advertisementService.getDetail(AdvertisementDiscription);
-//	}
+	
 }

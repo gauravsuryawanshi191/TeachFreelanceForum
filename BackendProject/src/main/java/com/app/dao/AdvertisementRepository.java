@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -21,6 +22,9 @@ public interface AdvertisementRepository extends JpaRepository<Advertisement, Lo
 	Optional<Advertisement> advertisementDescriptionforInstitute(@Param("p") String advertisementDescription,@Param("ref") Long instituteId);
 
 	@Query("select new Advertisement(id, occupationTitle,vacancyAvailable, salary, durationOfEmployment,workExperienceRequired, description, preferedGender, postingDate,skill) from Advertisement a where a.instituteRef.id =:instId")
-	Optional<List<Advertisement>> findByInstituteId(@Param("instId") Long instituteId);
+	List<Advertisement> findByInstituteId(@Param("instId") Long instituteId);
 
+	@Modifying
+	@Query(value="delete from advertisement_tbl where institute_id =?1", nativeQuery = true)
+	Integer deleteByInstituteId(@Param("instId") Long instituteId);
 }
