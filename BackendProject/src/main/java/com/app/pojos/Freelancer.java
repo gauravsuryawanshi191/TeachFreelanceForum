@@ -11,18 +11,9 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Entity
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 @Table(name = "freelancer_tbl")
 public class Freelancer extends BaseEntity {
 
@@ -246,7 +237,7 @@ public class Freelancer extends BaseEntity {
 				+ password + ", mobileNumber=" + mobileNumber + ", city=" + city + ", state=" + state + ", pincode="
 				+ pincode + ", currentAddress=" + currentAddress + ", experience=" + experience + ", graduationMarks="
 				+ graduationMarks + ", passoutYear=" + passoutYear + ", qualification=" + qualification
-				+ ", university=" + university + ", advertisements=" + advertisements + "]";
+				+ ", university=" + university +"]";
 	}
 	
 }

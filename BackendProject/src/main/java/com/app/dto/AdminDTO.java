@@ -1,8 +1,8 @@
-package com.app.pojos;
+package com.app.dto;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
@@ -11,31 +11,26 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
-@Entity
-@Table(name = "admin_tbl")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@ToString
-public class Admin extends BaseEntity{
+public class AdminDTO {
 
-	@Column(length = 20)
+	@JsonProperty(access = Access.READ_ONLY)
+	private Long id;
+	@NotBlank(message = "First Name is required")
 	private String firstName;
-	
-	@Column(length = 20)
+	@NotBlank(message = "Last Name is required")
 	private String lastName;
-	
-	@Column(length = 40, unique = true)
+	@NotBlank(message = "Email is required")
+	@Email(message = "Invalid email format")
 	private String email;
-	
-	@JsonProperty(access=Access.WRITE_ONLY)
-	@ToString.Exclude
-	@Column(length = 20)
+	@JsonProperty(access = Access.WRITE_ONLY)
+	@NotBlank(message = "Password required")
+	@Pattern(regexp = "(/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)", message = "Invalid password")
 	private String password;
-
 
 //	public String getFirstName() {
 //		return firstName;
@@ -72,6 +67,5 @@ public class Admin extends BaseEntity{
 //	@Override
 //	public String toString() {
 //		return "Admin [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + "]";
-//	}
-	
+//	}		
 }

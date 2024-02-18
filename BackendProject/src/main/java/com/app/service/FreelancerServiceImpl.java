@@ -1,13 +1,17 @@
 package com.app.service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
+import javax.validation.Valid;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.dao.FreelancerRepository;
+import com.app.dto.FreelancerDTO;
 import com.app.pojos.Freelancer;
 
 @Service
@@ -17,33 +21,38 @@ public class FreelancerServiceImpl implements FreelancerService {
 
 	@Autowired
 	private FreelancerRepository freelancerRepo;
+	
+	@Autowired
+	private ModelMapper mapper;
 
 	@Override
-	public Optional<Freelancer> findById(Long id) {
-		return freelancerRepo.findById(id);
+	public FreelancerDTO findById(Long id) {
+		return mapper.map(freelancerRepo.findById(id).orElseThrow(() -> new RuntimeException("Freelancer login failed : Invalid Credentials")),FreelancerDTO.class);
 	}
 
 	@Override
-	public Freelancer authenticateFreelancer(String email, String pass) {
-		return freelancerRepo.findByEmailAndPassword(email, pass)
-				.orElseThrow(() -> new RuntimeException("Freelancer login failed : Invalid Credentials"));
+	public FreelancerDTO authenticateFreelancer(String email, String pass) {
+		freelancerRepo.findByEmail(email).orElseThrow(() -> new RuntimeException("Invalid email id"));
+		return mapper.map(freelancerRepo.findByEmailAndPassword(email, pass)
+				.orElseThrow(() -> new RuntimeException("Freelancer login failed : Invalid Credentials")),FreelancerDTO.class);
 	}
 
 	@Override
-	public Freelancer addFreelancerDetails(Freelancer transientFreelancer) {
-		return freelancerRepo.save(transientFreelancer);
+	public FreelancerDTO addFreelancerDetails( FreelancerDTO freelancerDto) {
+		Freelancer freelancer = mapper.map(freelancerDto, Freelancer.class);
+		return mapper.map(freelancerRepo.save(freelancer),FreelancerDTO.class);
 	}
 
 	@Override
-	public Freelancer getFreelancerDetails(String firstName) {
-		Freelancer user = freelancerRepo.findByFirstName(firstName)
-				.orElseThrow(() -> new RuntimeException("No Freelancer found  " + firstName));
+	public FreelancerDTO getFreelancerDetails(String firstName) {
+		FreelancerDTO user = mapper.map(freelancerRepo.findByFirstName(firstName)
+				.orElseThrow(() -> new RuntimeException("No Freelancer found  " + firstName)),FreelancerDTO.class);
 		return user;
 	}
 
 	@Override
-	public Freelancer authenticateEmail(String em) {
-		return freelancerRepo.findByEmail(em).orElseThrow(() -> new RuntimeException("Invalid Email"));
+	public FreelancerDTO authenticateEmail(String em) {
+		return mapper.map(freelancerRepo.findByEmail(em).orElseThrow(() -> new RuntimeException("Invalid Email")),FreelancerDTO.class);
 	}
 
 	@Override
@@ -58,17 +67,18 @@ public class FreelancerServiceImpl implements FreelancerService {
 	}
 
 	@Override
-	public List<Freelancer> getAllFreelancer() {
-		return freelancerRepo.findAll();
+	public List<FreelancerDTO> getAllFreelancer() {
+		return freelancerRepo.findAll().stream().map(f->mapper.map(f, FreelancerDTO.class)).collect(Collectors.toList());
 	}
 
 	@Override
-	public Freelancer getFreelancerDetailsByEmail(String email) {
-		return freelancerRepo.findByEmail(email).orElseThrow(() -> new RuntimeException("Invalid Email"));
+	public FreelancerDTO getFreelancerDetailsByEmail(String email) {
+		return mapper.map(freelancerRepo.findByEmail(email).orElseThrow(() -> new RuntimeException("Invalid Email")),FreelancerDTO.class);
 	}
 
 	@Override
-	public Integer updateFreelancerQualificationDetails(Freelancer freelancer) {
+	public Integer updateFreelancerQualificationDetails(FreelancerDTO freelancerDto) {
+		Freelancer freelancer = mapper.map(freelancerDto, Freelancer.class);
 		return freelancerRepo.updateFreelancerQualification(freelancer.getQualification(), freelancer.getUniversity(), freelancer.getGraduationMarks(), freelancer.getPassoutYear(), freelancer.getEmail());
 	}
 }

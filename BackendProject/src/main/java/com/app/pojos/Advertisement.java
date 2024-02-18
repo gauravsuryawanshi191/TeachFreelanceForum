@@ -18,19 +18,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @Entity
 @Table(name = "advertisement_tbl")
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString
 
 public class Advertisement extends BaseEntity {
 	
@@ -77,6 +68,22 @@ public class Advertisement extends BaseEntity {
 	@JoinColumn(name = "institute_id", nullable = true)
 	private Institute instituteRef;	
 	
+	public Advertisement(Long id, String occupationTitle, Integer vacancyAvailable, Double salary, Integer durationOfEmployment,
+			Double workExperienceRequired, String description, String preferedGender, LocalDate postingDate,
+			String skill) {
+		super();
+		this.setId(id);
+		this.occupationTitle = occupationTitle;
+		this.vacancyAvailable = vacancyAvailable;
+		this.salary = salary;
+		this.durationOfEmployment = durationOfEmployment;
+		this.workExperienceRequired = workExperienceRequired;
+		this.description = description;
+		this.preferedGender = preferedGender;
+		this.postingDate = LocalDate.now();
+		this.skill = skill;
+	}
+	
 	public Advertisement(String occupationTitle, Integer vacancyAvailable, Double salary, Integer durationOfEmployment,
 			Double workExperienceRequired, String description, String preferedGender, LocalDate postingDate,
 			String skill) {
@@ -88,24 +95,8 @@ public class Advertisement extends BaseEntity {
 		this.workExperienceRequired = workExperienceRequired;
 		this.description = description;
 		this.preferedGender = preferedGender;
-		this.postingDate = postingDate;
+		this.postingDate = LocalDate.now();
 		this.skill = skill;
-	}
-
-	public Advertisement(String occupationTitle, Integer vacancyAvailable, Double salary, Integer durationOfEmployment,
-			Double workExperienceRequired, String description, String preferedGender, LocalDate postingDate,
-			String skill, Institute instituteRef) {
-		super();
-		this.occupationTitle = occupationTitle;
-		this.vacancyAvailable = vacancyAvailable;
-		this.salary = salary;
-		this.durationOfEmployment = durationOfEmployment;
-		this.workExperienceRequired = workExperienceRequired;
-		this.description = description;
-		this.preferedGender = preferedGender;
-		this.postingDate = postingDate;
-		this.skill = skill;
-		this.instituteRef = instituteRef;
 	}
 
 	public Advertisement() {

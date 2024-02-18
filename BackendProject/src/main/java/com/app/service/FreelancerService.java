@@ -1,31 +1,30 @@
 package com.app.service;
 
 import java.util.List;
-import java.util.Optional;
 
-import com.app.pojos.Freelancer;
+import com.app.dto.FreelancerDTO;
 
 public interface FreelancerService {
 
-	 Optional <Freelancer> findById(Long id);
-	 
-	Freelancer authenticateFreelancer(String email,String pass); 
-	
-	Freelancer addFreelancerDetails(Freelancer transientFreelancer);
-	
-	Integer updateFreelancerQualificationDetails(Freelancer freelancer);
-	
-	Freelancer getFreelancerDetails(String firstName);
-	
-	Freelancer getFreelancerDetailsByEmail(String email);
-	 
-	Freelancer authenticateEmail(String em);
-	 
-	 Integer updatePasswordWithEmail(String pass,String em);
-	 
-	  String deleteFreelancer(Long id);
-	
-	  //for admin to view all freelancers
-	  List<Freelancer> getAllFreelancer();
-	
+	FreelancerDTO findById(Long id);
+
+	FreelancerDTO authenticateFreelancer(String email, String pass);
+
+	FreelancerDTO addFreelancerDetails(FreelancerDTO freelancerDto);
+
+	Integer updateFreelancerQualificationDetails(FreelancerDTO freelancerDto);
+
+	FreelancerDTO getFreelancerDetails(String firstName);
+
+	FreelancerDTO getFreelancerDetailsByEmail(String email);
+
+	FreelancerDTO authenticateEmail(String em);
+
+	Integer updatePasswordWithEmail(String pass, String em);
+
+	String deleteFreelancer(Long id);
+
+	// for admin to view all freelancers
+	List<FreelancerDTO> getAllFreelancer();
+
 }
