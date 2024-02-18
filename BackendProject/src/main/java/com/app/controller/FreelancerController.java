@@ -1,10 +1,11 @@
 package com.app.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,12 +16,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.app.dto.ApiResponse;
 import com.app.dto.FreelancerDTO;
 import com.app.service.FreelancerService;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/Freelancer")
+@Validated
 public class FreelancerController {
 
 	@Autowired
@@ -30,77 +33,108 @@ public class FreelancerController {
 		System.out.println("in ctor of " + getClass());
 	}
 
-	/*
-	 * @GetMapping("/{id}") public ResponseEntity<?>
-	 * getUserDetailsById(@PathVariable int id){ return new
-	 * ResponseEntity<>(user.findById(id),HttpStatus.OK); }
-	 */
-
 	@PostMapping("/authenticate")
-	public FreelancerDTO loginFreelancer(@RequestBody FreelancerDTO freelancerDto) {
-		FreelancerDTO u = null;
-		String em = freelancerDto.getEmail();
-		String pass = freelancerDto.getPassword();
-		if (em != null && pass != null) {
-			u = freelancer.authenticateFreelancer(em, pass);
+	public ResponseEntity<?> loginFreelancer(@RequestBody FreelancerDTO freelancerDto) {
+		try {
+			FreelancerDTO u = null;
+			String em = freelancerDto.getEmail();
+			String pass = freelancerDto.getPassword();
+			if (em != null && pass != null) {
+				u = freelancer.authenticateFreelancer(em, pass);
+			}
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(u);
+		} catch (RuntimeException e) {
+			System.out.println("in catch " + e.getMessage());
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
 		}
-		if (u != null) {
-			return u;
-		} else {
-			return null;
-		}
+
 	}
 
 	@PostMapping("/add")
-	public FreelancerDTO addFreelancer(@Valid @RequestBody FreelancerDTO newFreelancerDto) {
-		return freelancer.addFreelancerDetails(newFreelancerDto);
+	public ResponseEntity<?> addFreelancer(@Valid @RequestBody FreelancerDTO newFreelancerDto) {
+		return new ResponseEntity<>(freelancer.addFreelancerDetails(newFreelancerDto), HttpStatus.CREATED);
 	}
 
 	@GetMapping("/{firstName}")
-	public FreelancerDTO getFreelancerDetailsByFirstName(@PathVariable String firstName) {
-		System.out.println("in Freelancer details methods");
-		return freelancer.getFreelancerDetails(firstName);
+	public ResponseEntity<?> getFreelancerDetailsByFirstName(@PathVariable String firstName) {
+		try {
+			System.out.println("in Freelancer details methods");
+			return new ResponseEntity<>(freelancer.getFreelancerDetails(firstName), HttpStatus.OK);
+		} catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
+		}
+
+	@GetMapping("/getFreelancer/{id}")
+	public Freelancer getFreelancerDetailsById(@PathVariable Long id) {
+		System.out.println("in Freelancer details methods by ID");
+		return freelancer.getFreelancerById(id);
 	}
-	
+
 	@GetMapping("/email/{email}")
-	public FreelancerDTO getFreelancerDetailsByEmail(@PathVariable String email) {
-		System.out.println("in Freelancer details methods");
-		return freelancer.getFreelancerDetailsByEmail(email);
+	public ResponseEntity<?> getFreelancerDetailsByEmail(@PathVariable String email) {
+		try {
+			System.out.println("in Freelancer details methods");
+			return new ResponseEntity<>(freelancer.getFreelancerDetailsByEmail(email), HttpStatus.OK);
+		} catch (RuntimeException e) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
+		}
 	}
 
 	@PostMapping("/changePassword")
-	public Integer changePassword(@RequestBody FreelancerDTO f) {
+	public ResponseEntity<?> changePassword(@RequestBody FreelancerDTO f) {
 		String pass = f.getPassword();
 		System.out.println(pass);
 
 		String em = f.getEmail();
 		System.out.println(em);
-
-		if (pass != null && em != null) {
-			freelancer.authenticateEmail(em);
-			System.out.println("email varified");
-			return freelancer.updatePasswordWithEmail(pass, em);
-		} else {
-			return null;
+		try {
+			if (pass != null && em != null) {
+				freelancer.authenticateEmail(em);
+				System.out.println("email varified");
+				return ResponseEntity.status(HttpStatus.OK).body(freelancer.updatePasswordWithEmail(pass, em));
+			} else {
+				return null;
+			}
+		} catch (RuntimeException e) {
+			System.out.println("err" + e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new ApiResponse(e.getMessage()));
 		}
 	}
-	
-	//PutMapping: to add qualification details
+
+	// PutMapping: to add qualification details
 	@PutMapping("/updateQualification")
-	public Integer updateQualification(@RequestBody FreelancerDTO updateFreelancerDto){
-		return freelancer.updateFreelancerQualificationDetails(updateFreelancerDto);
-		
+	public ResponseEntity<?> updateQualification(@RequestBody FreelancerDTO updateFreelancerDto) {
+
+		try {
+			return new ResponseEntity<>(freelancer.updateFreelancerQualificationDetails(updateFreelancerDto),
+					HttpStatus.ACCEPTED);
+		} catch (RuntimeException e) {
+			System.out.println("err" + e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new ApiResponse(e.getMessage()));
+		}
+
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public String deleteFreelancerById(@PathVariable Long id) {
+	public ResponseEntity<?> deleteFreelancerById(@PathVariable Long id) {
 		freelancer.deleteFreelancer(id);
-		return "deleted";
+		return new ResponseEntity<>("deleted", HttpStatus.OK);
 	}
 
 	@GetMapping("/all")
-	public List<FreelancerDTO> getAllFreelancerDetails() {
+	public ResponseEntity<?> getAllFreelancerDetails() {
 		System.out.println("in get all user");
 		return freelancer.getAllFreelancer();
 	}
+
+	// applying for adv
+	@PostMapping("/apply/{free_id}/{adv_id}")
+	public Integer applyForJob(@PathVariable Long free_id, @PathVariable Long adv_id) {
+		System.out.println("freeId: " + free_id + " AdvId: " + adv_id);
+
+		return freelancer.applyToJob(free_id, adv_id);
+	}
+
 }

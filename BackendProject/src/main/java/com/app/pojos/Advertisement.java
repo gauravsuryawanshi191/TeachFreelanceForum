@@ -24,51 +24,58 @@ import lombok.ToString;
 @Table(name = "advertisement_tbl")
 
 public class Advertisement extends BaseEntity {
-	
+
 	@Column(length = 20)
 	private String occupationTitle;
-	
+
 	@Column
 	private Integer vacancyAvailable;
-	
+
 	@Column(length = 20)
 	private Double salary;
-	
+
 	@Column
 	private Integer durationOfEmployment;
-	
+
 	@Column
 	private Double workExperienceRequired;
-	
+
 	@Column(length = 50)
 	private String description;
-	
+
 	@Column(length = 20)
 	private String preferedGender;
-	
+
 	@Column
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate postingDate;
-	
+
 	@Column(length = 50)
 	private String skill;
 
-	//owning -> child
+	// owning -> child
 	@JsonIgnore
 	@ToString.Exclude
 	@ManyToMany(cascade = CascadeType.PERSIST)
-	@JoinTable(name = "application_tbl"
-			, joinColumns = @JoinColumn(name = "advertisement_id")
-			, inverseJoinColumns = @JoinColumn(name = "freelancer_id"))
+	@JoinTable(name = "application_tbl", joinColumns = @JoinColumn(name = "advertisement_id"), inverseJoinColumns = @JoinColumn(name = "freelancer_id"))
 	private Set<Freelancer> applicants = new HashSet<>();
+
+	public Set<Freelancer> getApplicants() {
+		return applicants;
+	}
+
+	public void setApplicants(Set<Freelancer> applicants) {
+		this.applicants = applicants;
+	}
 
 	@JsonIgnore
 	@ToString.Exclude
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "institute_id", nullable = true)
-	private Institute instituteRef;	
-	
-	public Advertisement(Long id, String occupationTitle, Integer vacancyAvailable, Double salary, Integer durationOfEmployment,
+	private Institute instituteRef;
+
+	public Advertisement(Long id, String occupationTitle, Integer vacancyAvailable, Double salary,
+			Integer durationOfEmployment,
 			Double workExperienceRequired, String description, String preferedGender, LocalDate postingDate,
 			String skill) {
 		super();
@@ -83,7 +90,7 @@ public class Advertisement extends BaseEntity {
 		this.postingDate = LocalDate.now();
 		this.skill = skill;
 	}
-	
+
 	public Advertisement(String occupationTitle, Integer vacancyAvailable, Double salary, Integer durationOfEmployment,
 			Double workExperienceRequired, String description, String preferedGender, LocalDate postingDate,
 			String skill) {
@@ -189,6 +196,6 @@ public class Advertisement extends BaseEntity {
 
 	public void setInstituteRef(Institute instituteRef) {
 		this.instituteRef = instituteRef;
-	}	
-	
+	}
+
 }

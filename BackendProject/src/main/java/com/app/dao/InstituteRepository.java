@@ -14,24 +14,21 @@ import com.app.pojos.Institute;
 @Repository
 public interface InstituteRepository extends JpaRepository<Institute,Long> {
 
-//	@Query("select f from Freelancer f left join fetch f.advertisements a where f.id = a.applicants.freelancer_id "
-//			+ "and a.applicants.advertisement_id = (select adv.id from Advertisement adv "
-//			+ "where adv.occupationTitle =: subject)")
 	@Query(value = "select freelancer_tbl.* from freelancer_tbl join application_tbl on freelancer_tbl.id = application_tbl.freelancer_id "
 			+ "and application_tbl.advertisement_id = (select advertisement_tbl.id from advertisement_tbl "
 			+ "where advertisement_tbl.occupationTitle = ?1)", nativeQuery = true)
-	public List <Freelancer> applyingForTheJob(@Param("subject") String a);
+	public List<Freelancer> applyingForTheJob(@Param("subject") String a);
 	
-	//authentication of institute
-	Optional <Institute>findByInstituteEmailAndInstitutePassword(String em, String pass);
+	//find institute  by email
+	public Optional<Institute> findByInstituteEmail(String email);
+		
+	//check password
+	Optional<Institute>findByInstitutePassword(String pass);
 	
 	//Approving status of institute by admin
 	@Modifying 
 	@Query("Update Institute i set i.instituteStatus=:e where i.id=:p")
 	Integer updateInstituteStatus(@Param("p") Long id, @Param("e") String a);
-	
-	//find institute  by email
-	public Optional<Institute> findByInstituteEmail(String email);
 	
 	@Modifying
 	@Query("Update Institute i set i.institutePassword=:p where i.instituteEmail=:e")

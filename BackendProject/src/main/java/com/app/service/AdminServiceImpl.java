@@ -14,17 +14,17 @@ import com.app.dto.AdminDTO;
 public class AdminServiceImpl implements AdminService {
 	@Autowired
 	private AdminRepository adminRepo;
-	
+
 	@Autowired
 	private ModelMapper mapper;
 
 	@Override
 	public AdminDTO authenticateAdmin(String email, String password) {
 		adminRepo.findByEmail(email)
-		.orElseThrow(() -> new RuntimeException("Admin : Invalid Email"));
+				.orElseThrow(() -> new RuntimeException("Admin : Invalid Email"));
 		System.out.println("Email verified");
 		return mapper.map(adminRepo.findByEmailAndPassword(email, password)
-				.orElseThrow(() -> new RuntimeException("Admin Login Failed : Invalid Password")),AdminDTO.class);
+				.orElseThrow(() -> new RuntimeException("Admin Login Failed : Invalid Password")), AdminDTO.class);
 	}
 
 	@Override

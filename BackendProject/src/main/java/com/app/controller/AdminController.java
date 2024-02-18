@@ -30,10 +30,11 @@ public class AdminController {
 			AdminDTO ad = null;
 			String em = adminDto.getEmail();
 			String pass = adminDto.getPassword();
-			if (em != null && pass != null) {
+			if (em.trim() != null && pass.trim() != null) {
 				ad = adminService.authenticateAdmin(em, pass);
+				return ResponseEntity.status(HttpStatus.ACCEPTED).body(ad);
 			}
-			return ResponseEntity.status(HttpStatus.ACCEPTED).body(ad);
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("Email id and password can not be empty"));
 		}catch(RuntimeException e) {
 			System.out.println("in catch " + e.getMessage());
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));

@@ -2,27 +2,27 @@ package com.app.service;
 
 import java.util.List;
 
-import com.app.pojos.Advertisement;
+import com.app.dto.AdvertisementDTO;
 
 public interface AdvertisementService {
 
-	Advertisement addNewAdvertisement(Long instituteId,Advertisement transientAdvertisement);
+	AdvertisementDTO addNewAdvertisement(Long instituteId, AdvertisementDTO transientAdvertisementDto);
 
-	List<Advertisement> getAllAdvertisement();
-	
-	//for edit advertisement fetch data of the same
-	Advertisement fetchAdvertisementDetails(Long id);
-	
-	List<Advertisement> fetchInstituteAdvertisements(Long instituteId);
+	List<AdvertisementDTO> getAllAdvertisement();
 
-	Advertisement getAdvertisementName(String skill);
+	// for edit advertisement fetch data of the same
+	AdvertisementDTO fetchAdvertisementDetails(Long id);
+
+	List<AdvertisementDTO> fetchInstituteAdvertisements(Long instituteId);
+
+	AdvertisementDTO getAdvertisementName(String skill);
 
 	String removeAdvertisementById(Long id);
 
-	Advertisement addOrUpdateFreelancerDetails(Advertisement transientAdvertisement);
+	AdvertisementDTO addOrUpdateFreelancerDetails(AdvertisementDTO transientAdvertisementDto);
 
-	List<Advertisement> getDetail(String advertisementDescription);
+	List<AdvertisementDTO> getDetail(String advertisementDescription);
 
-	Advertisement updateAdvertisementDetails(Long instituteId, Long advertisementId, Advertisement advertisement);
-	
+	AdvertisementDTO updateAdvertisementDetails(Long instituteId, Long advertisementId, AdvertisementDTO advertisement);
+
 }

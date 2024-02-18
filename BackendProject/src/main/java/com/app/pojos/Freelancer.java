@@ -18,53 +18,63 @@ import lombok.ToString;
 public class Freelancer extends BaseEntity {
 
 	@Column(length = 20)
-	private String firstName; 
-	
+	private String firstName;
+
 	@Column(length = 20)
 	private String lastName;
-	
+
 	@Column(length = 40, unique = true)
 	private String email;
-	
+
 	@Column(length = 20)
 	private String password;
-	
+
 	@Column(length = 12, unique = true)
 	private String mobileNumber;
-	
+
 	@Column(length = 20)
 	private String city;
-	
+
 	@Column(length = 20)
 	private String state;
-	
+
 	@Column(length = 20)
 	private String pincode;
-	
+
 	@Column(length = 100)
 	private String currentAddress;
-	
+
 	@Column
 	private Double experience;
-	
+
 	@Column
-	private Integer graduationMarks;
-	
+	private Double graduationMarks;
+
 	@Column
 	private Integer passoutYear;
-	
+
 	@Column(length = 100)
 	private String qualification;
-	
+
 	@Column(length = 20)
 	private String university;
 
-	//inverse side
+	// inverse side
 	@JsonIgnore
 	@ToString.Exclude
 	@ManyToMany(mappedBy = "applicants")
-	private Set<Advertisement> advertisements=new HashSet<>();
-	
+	private Set<Advertisement> advertisements = new HashSet<>();
+
+	public void addAdvertisement(Advertisement adv) {
+		this.advertisements.add(adv);
+		adv.getApplicants().add(this);
+	}
+
+	public void removeAdvertisement(Advertisement adv) {
+		this.advertisements.remove(adv);
+		adv.getApplicants().remove(this);
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -165,11 +175,11 @@ public class Freelancer extends BaseEntity {
 		this.experience = experience;
 	}
 
-	public Integer getGraduationMarks() {
+	public Double getGraduationMarks() {
 		return graduationMarks;
 	}
 
-	public void setGraduationMarks(Integer graduationMarks) {
+	public void setGraduationMarks(Double graduationMarks) {
 		this.graduationMarks = graduationMarks;
 	}
 
@@ -211,7 +221,7 @@ public class Freelancer extends BaseEntity {
 
 	public Freelancer(String firstName, String lastName, String email, String password, String mobileNumber,
 			String city, String state, String pincode, String currentAddress, Double experience,
-			Integer graduationMarks, Integer passoutYear, String qualification, String university,
+			Double graduationMarks, Integer passoutYear, String qualification, String university,
 			Set<Advertisement> advertisements) {
 		super();
 		this.firstName = firstName;
@@ -237,7 +247,7 @@ public class Freelancer extends BaseEntity {
 				+ password + ", mobileNumber=" + mobileNumber + ", city=" + city + ", state=" + state + ", pincode="
 				+ pincode + ", currentAddress=" + currentAddress + ", experience=" + experience + ", graduationMarks="
 				+ graduationMarks + ", passoutYear=" + passoutYear + ", qualification=" + qualification
-				+ ", university=" + university +"]";
+				+ ", university=" + university + "]";
 	}
-	
+
 }
