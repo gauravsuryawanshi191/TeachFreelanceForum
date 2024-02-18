@@ -2,7 +2,6 @@ package com.app.service;
 
 import java.util.List;
 
-import com.app.dao.InstituteResponseRepository;
 import com.app.pojos.Freelancer;
 import com.app.pojos.Institute;
 import com.app.pojos.InstituteResponse;
@@ -16,13 +15,17 @@ public interface InstituteService {
 	
 	//List<Applicant> getAllApplicant();
 	
-	//Institute addOrUpdateDetails(Institute a);
-	
 	//to add new institute to DB
-	Institute addInstitute(Institute c);
+	Institute addInstitute(Institute institute);
 	
 	//to authenticate user
-	Institute authenticateUser(String em, String pass);
+	Institute authenticateInstitute(String email, String password);
+	
+	//to change password, first check email exists or not
+	public Institute authenticateEmail(String email);
+
+	//change password of registered institute
+	public Integer updatePasswordWithEmail(String pass, String email);
 	
 	//for admin to view all institutes
 	List<Institute> getAllInstitutes();
@@ -30,13 +33,13 @@ public interface InstituteService {
 	//for institute to view details by email
 	Institute getInstituteDetails(String email);
 	
-	//update institute by email
+	//update institute reamining
 	Integer updateInstitute(Institute updatedInstitute);
 	
-	//to delete institute by id
+	//admin delete institute by id
 	String removeInstituteById(Long id);
 	
-	//update status of institute
+	//admin changes status of institute
 	Integer updateInstituteStatus(Long id, String status);
 	
 	//send response to particular freelancer selected for the job advertisement

@@ -4,20 +4,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
-
 @Entity
 @Table(name = "Institute_tbl")
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
-@ToString
-
 public class Institute extends BaseEntity {
 
 	@Column(length = 20)
@@ -46,13 +34,9 @@ public class Institute extends BaseEntity {
 		this.instituteEmail = instituteEmail;
 	}
 
-
-
 	public String getInstituteName() {
 		return instituteName;
 	}
-	
-	
 
 	public void setInstituteName(String instituteName) {
 		this.instituteName = instituteName;

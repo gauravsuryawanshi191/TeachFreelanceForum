@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.app.dao.FreelancerRepository;
 import com.app.dao.InstituteRepository;
 import com.app.dao.InstituteResponseRepository;
 import com.app.pojos.Freelancer;
@@ -16,9 +15,6 @@ import com.app.pojos.InstituteResponse;
 @Service
 @Transactional
 public class InstituteServiceImpl implements InstituteService{
-
-	@Autowired
-	public FreelancerRepository freelancerRepo;
 	
 	@Autowired
 	public InstituteRepository instituteRepo;
@@ -45,21 +41,13 @@ public class InstituteServiceImpl implements InstituteService{
 //	}
 
 
-//	@Override
-//	public Institute addOrUpdateDetails(Institute a) {
-//		// TODO Auto-generated method stub
-//		return instittuteRepo.save(a);
-//	}
-
 	@Override
 	public Institute addInstitute(Institute institute) {
-		// TODO Auto-generated method stub
 		return instituteRepo.save(institute);
 	}
 
 	@Override
-	public Institute authenticateUser(String em, String pass) {
-		// TODO Auto-generated method stub
+	public Institute authenticateInstitute(String em, String pass) {
 		return instituteRepo.findByInstituteEmailAndInstitutePassword(em, pass)
 				.orElseThrow(() -> new RuntimeException("Institute login failed : Invalid Credentials"))	;
 	
@@ -67,29 +55,33 @@ public class InstituteServiceImpl implements InstituteService{
 	
 	@Override
 	public List<Institute> getAllInstitutes() {
-		// TODO Auto-generated method stub
 		return instituteRepo.findAll();
 	}
 
 	@Override
 	public Institute getInstituteDetails(String email) {
-		return instituteRepo.findByInstituteEmail(email);
-		
+		return instituteRepo.findByInstituteEmail(email).orElseThrow(() -> new RuntimeException("Invalid Email"));
 	}
 	@Override
 	public String removeInstituteById(Long id) {
-		// TODO Auto-generated method stub
 		instituteRepo.deleteById(id);
 		 return "ok deleted";
 	}
 
-
 	@Override
-	public InstituteResponse addResponse(InstituteResponse s) {
-		// TODO Auto-generated method stub
-		return feedback.save(s);
+	public Institute authenticateEmail(String email) {
+		return instituteRepo.findByInstituteEmail(email).orElseThrow(() -> new RuntimeException("Invalid Email"));
 	}
 
+	@Override
+	public Integer updatePasswordWithEmail(String pass, String email) {
+		return instituteRepo.updatePassword(pass, email);
+	}
+	
+	@Override
+	public InstituteResponse addResponse(InstituteResponse s) {
+		return feedback.save(s);
+	}
 
 //	@Override
 //	public InstituteResponse getSelected(Long freelancerId) {
@@ -106,7 +98,6 @@ public class InstituteServiceImpl implements InstituteService{
 
 	@Override
 	public InstituteResponse findByFreelancerEmail(String freelancerEmail) {
-		// TODO Auto-generated method stub
 		return feedback.findByFreelancerEmail(freelancerEmail)
 				.orElseThrow(() -> new RuntimeException("Invalid Freelancer Email"));
 	}
@@ -115,7 +106,6 @@ public class InstituteServiceImpl implements InstituteService{
 	public Integer updateInstitute(Institute updatedInstitute) {
 		return instituteRepo.updateInstitute(updatedInstitute.getInstituteName(),updatedInstitute.getInstituteMission(), updatedInstitute.getInstituteEmail());
 	}
-
 
 }
 //findByApplyingForJob(applyingForJob).orElseThrow(() -> new RuntimeException("No job found skill " +applyingForJob));
