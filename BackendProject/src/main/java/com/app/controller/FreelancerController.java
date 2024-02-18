@@ -2,6 +2,8 @@ package com.app.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.pojos.Freelancer;
+import com.app.dto.FreelancerDTO;
 import com.app.service.FreelancerService;
 
 @CrossOrigin(origins = "*")
@@ -35,10 +37,10 @@ public class FreelancerController {
 	 */
 
 	@PostMapping("/authenticate")
-	public Freelancer loginFreelancer(@RequestBody Freelancer a) {
-		Freelancer u = null;
-		String em = a.getEmail();
-		String pass = a.getPassword();
+	public FreelancerDTO loginFreelancer(@RequestBody FreelancerDTO freelancerDto) {
+		FreelancerDTO u = null;
+		String em = freelancerDto.getEmail();
+		String pass = freelancerDto.getPassword();
 		if (em != null && pass != null) {
 			u = freelancer.authenticateFreelancer(em, pass);
 		}
@@ -50,24 +52,24 @@ public class FreelancerController {
 	}
 
 	@PostMapping("/add")
-	public Freelancer addFreelancer(@RequestBody Freelancer newFreelancer) {
-		return freelancer.addFreelancerDetails(newFreelancer);
+	public FreelancerDTO addFreelancer(@Valid @RequestBody FreelancerDTO newFreelancerDto) {
+		return freelancer.addFreelancerDetails(newFreelancerDto);
 	}
 
 	@GetMapping("/{firstName}")
-	public Freelancer getFreelancerDetailsByFirstName(@PathVariable String firstName) {
+	public FreelancerDTO getFreelancerDetailsByFirstName(@PathVariable String firstName) {
 		System.out.println("in Freelancer details methods");
 		return freelancer.getFreelancerDetails(firstName);
 	}
 	
 	@GetMapping("/email/{email}")
-	public Freelancer getFreelancerDetailsByEmail(@PathVariable String email) {
+	public FreelancerDTO getFreelancerDetailsByEmail(@PathVariable String email) {
 		System.out.println("in Freelancer details methods");
 		return freelancer.getFreelancerDetailsByEmail(email);
 	}
 
 	@PostMapping("/changePassword")
-	public Integer forgetPassword(@RequestBody Freelancer f) {
+	public Integer changePassword(@RequestBody FreelancerDTO f) {
 		String pass = f.getPassword();
 		System.out.println(pass);
 
@@ -85,8 +87,8 @@ public class FreelancerController {
 	
 	//PutMapping: to add qualification details
 	@PutMapping("/updateQualification")
-	public Integer updateQualification(@RequestBody Freelancer updateFreelancer){
-		return freelancer.updateFreelancerQualificationDetails(updateFreelancer);
+	public Integer updateQualification(@RequestBody FreelancerDTO updateFreelancerDto){
+		return freelancer.updateFreelancerQualificationDetails(updateFreelancerDto);
 		
 	}
 
@@ -97,7 +99,7 @@ public class FreelancerController {
 	}
 
 	@GetMapping("/all")
-	public List<Freelancer> getAllFreelancerDetails() {
+	public List<FreelancerDTO> getAllFreelancerDetails() {
 		System.out.println("in get all user");
 		return freelancer.getAllFreelancer();
 	}

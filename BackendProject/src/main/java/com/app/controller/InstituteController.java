@@ -70,7 +70,7 @@ public class InstituteController {
 		String pass = a.getInstitutePassword();
 		System.out.println(em + " " + pass);
 		if (em != null && pass != null) {
-			c = instituteService.authenticateUser(em, pass);
+			c = instituteService.authenticateInstitute(em, pass);
 		}
 		if (c != null) {
 			return c;
@@ -79,23 +79,36 @@ public class InstituteController {
 		}
 
 	}
+
+	@PostMapping("/changePassword")
+	public Integer changePassword(@RequestBody Institute institute) {
+		String pass = institute.getInstitutePassword();
+		System.out.println(pass);
+		String email = institute.getInstituteEmail();
+		System.out.println(email);
+		if (pass != null && email != null) {
+			instituteService.authenticateEmail(email);
+			System.out.println("email varified");
+			return instituteService.updatePasswordWithEmail(pass, email);
+		} else {
+			return null;
+		}
+	}
+	
 	@GetMapping("/getInstitute/{email}")
 	public Institute getInstituteDetails(@PathVariable String email) {
 		System.out.println("in get institute");
 		return instituteService.getInstituteDetails(email);
-
 	}
 
 	@GetMapping("/getInstitutes")
 	public List<Institute> getAllDetails() {
 		System.out.println("in get all institutes");
 		return instituteService.getAllInstitutes();
-
 	}
 
 	@GetMapping("/approve/{id}/{status}")
 	public Integer approve(@PathVariable Long id, @PathVariable String status) {
-
 		System.out.println(status);
 		String statusNotApproved = "NOTAPPROVED";
 		String statusApproved = "APPROVED";
@@ -105,7 +118,6 @@ public class InstituteController {
 
 			return instituteService.updateInstituteStatus(id, statusNotApproved);
 		}
-
 	}
 
 	@DeleteMapping("/deleteInstitute/{id}")
@@ -115,7 +127,7 @@ public class InstituteController {
 	}
 	
 	@PutMapping("/update")
-	public Integer updateInstitute(Institute updatedInstitute) {
+	public Integer updateInstitute(@RequestBody Institute updatedInstitute) {
 		System.out.println(updatedInstitute);
 		return instituteService.updateInstitute(updatedInstitute);
 	}

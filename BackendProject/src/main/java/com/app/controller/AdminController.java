@@ -1,13 +1,15 @@
 package com.app.controller;
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.pojos.Admin;
+import com.app.dto.AdminDTO;
+import com.app.dto.ApiResponse;
 import com.app.service.AdminService;
 
 @CrossOrigin(origins = "*")
@@ -23,41 +25,36 @@ public class AdminController {
 	}
 
 	@PostMapping("/authenticate")
-	public Admin authenticateAdmin(@RequestBody Admin admin) {
-		Admin ad = null;
-		String em = admin.getEmail();
-		String pass = admin.getPassword();
-		if (em != null && pass != null) {
-			ad = adminService.authenticateAdmin(em, pass);
-		}
-		if (ad != null) {
-			return ad;
-		} else {
-			return null;
+	public ResponseEntity<?> authenticateAdmin(@RequestBody AdminDTO adminDto) {
+		try{
+			AdminDTO ad = null;
+			String em = adminDto.getEmail();
+			String pass = adminDto.getPassword();
+			if (em != null && pass != null) {
+				ad = adminService.authenticateAdmin(em, pass);
+			}
+			return ResponseEntity.status(HttpStatus.ACCEPTED).body(ad);
+		}catch(RuntimeException e) {
+			System.out.println("in catch " + e.getMessage());
+			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
 		}
 	}
-	
-//	@GetMapping("/{firstName}")
-//	public Freelancer getFreelancerDetailsByFirstName(@PathVariable String firstName) {
-//		System.out.println("in Freelancer details methods");
-//		return freelancer.getFreelancerDetails(firstName);
-//
-//	}
 
 	@PostMapping("/changePassword")
-	public Integer changePassword(@RequestBody Admin admin) {
-		String pass = admin.getPassword();
+	public ResponseEntity<?> changePassword(@RequestBody AdminDTO adminDto) {
+		String pass = adminDto.getPassword();
 		System.out.println(pass);
 
-		String em = admin.getEmail();
+		String em = adminDto.getEmail();
 		System.out.println(em);
-
-		if (pass != null && em != null) {
-			return adminService.updatePasswordWithEmail(em, pass);
-		} else {
-			return null;
+		try {
+			return ResponseEntity.status(HttpStatus.OK)
+					.body(adminService.updatePasswordWithEmail(em, pass));
 		}
-
+		catch (RuntimeException e) {
+			System.out.println("err" + e);
+			return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+					.body(new ApiResponse(e.getMessage()));
+		}
 	}
-
 }
