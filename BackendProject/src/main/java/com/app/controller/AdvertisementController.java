@@ -65,7 +65,7 @@ public class AdvertisementController {
 
 	// get advertisement for update operation
 	@GetMapping("/get/{advertisementId}")
-	public ResponseEntity<?> getAdvertisementDetails(@PathVariable Long advertisementId) {
+	public ResponseEntity<?> getAdvertisementDetails(@Valid @PathVariable Long advertisementId) {
 		System.out.println("in get specific Advertisement details");
 		try {
 			return new ResponseEntity<>(advertisementService.fetchAdvertisementDetails(advertisementId), HttpStatus.OK);
@@ -77,14 +77,14 @@ public class AdvertisementController {
 	}
 
 	@DeleteMapping("/{advertisementId}")
-	public ResponseEntity<?> deleteAdvertisementById(@PathVariable Long advertisementId) {
+	public ResponseEntity<?> deleteAdvertisementById(@Valid @PathVariable Long advertisementId) {
 		advertisementService.removeAdvertisementById(advertisementId);
 		return new ResponseEntity<>("deleted", HttpStatus.OK);
 	}
 
 	@PutMapping("/{instituteId}/{advertisementId}")
-	public ResponseEntity<?> editAdvertisementDetails(@PathVariable Long instituteId,
-			@PathVariable Long advertisementId, @RequestBody AdvertisementDTO advertisementDto) {
+	public ResponseEntity<?> editAdvertisementDetails(@Valid @PathVariable Long instituteId,
+			@Valid @PathVariable Long advertisementId,@Valid @RequestBody AdvertisementDTO advertisementDto) {
 		System.out.println("in update Advertisement " + instituteId + advertisementId);
 		
 		return new ResponseEntity<>(
@@ -93,7 +93,7 @@ public class AdvertisementController {
 	}
 
 	@PutMapping("/put")
-	public ResponseEntity<?> updateAdvertisementDetails(@RequestBody AdvertisementDTO e) // de-serial (un marshalling)
+	public ResponseEntity<?> updateAdvertisementDetails(@Valid @RequestBody AdvertisementDTO e) // de-serial (un marshalling)
 	{
 		// e : DETACHED POJO , containing updated state
 		System.out.println("in add AdvertisementDTO " + e);
