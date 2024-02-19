@@ -8,16 +8,18 @@ export default function Jumbotran() {
           <div className='col-md-7'>
             <br/><br/>
             <h1 className='animated slideInLeft featurette-heading fw-bold'>
-              Together WE CAN... <br />
+             Our Mission
             </h1>
-            <br/><br/>
+            <br></br>
             <p
               className='animated fadeInUp lead'
               style={{ animationDelay: "0.8s" }}
             >
-              TeachFreelance Forum : It's one of the top job sites in India,
-              with many institutes listing jobs online. Our only mission is
-              to bridge the gap between Institute and Freelancers.
+              "We aim to provide a platform that allows users of all ages and skill levels to learn, grow, and connect. 
+              Our mission is to empower freelancers  by seamlessly linking them with job opportunities from institutes. 
+              We prioritize user experience by enabling freelancers to explore job openings, review responses from different intitutes.              
+              For institutes, we facilitate effortless profile creation, job posting, freelancer selection. Through our platform, 
+              we aspire to streamline the freelancer hiring process, promoting efficiency and satisfaction for all stakeholders."
             </p>
           </div>
           <br/>
