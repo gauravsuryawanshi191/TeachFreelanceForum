@@ -5,103 +5,56 @@ export default function SearchJob() {
 
     const [APIData, setAPIData] = useState([])
 
-    const [filteredResults, setFilteredResults] = useState([]);
-
-    const [searchInput, setSearchInput] = useState('');
-
     useEffect(() => {
-        
-        axios.get(`http://localhost:8080/api/Jobs/`)
+        axios.get(`http://localhost:8080/api/Advertisement`)
             .then((response) => {
                 setAPIData(response.data);
             })
     }, [])
 
-    const apply = () => {
+    const apply = (ItemId) => {
+        console.log(ItemId);
+        window.location.replace(`/freelancer/dashboard/apply-job/${ItemId}`);
         
-        window.location.replace("/freelancer/dashboard/apply-job");
     }
 
-    const searchItems = (searchValue) => {
-
-        window.localStorage.setItem('apply', JSON.stringify(searchValue));
-
-        setSearchInput(searchValue)
-        if (searchInput !== '') {
-            const filteredData = APIData.filter((item) => {
-                return Object.values(item).join('').toLowerCase().includes(searchInput.toLowerCase())
-            })
-            setFilteredResults(filteredData)
-        }
-        else {
-            setFilteredResults(APIData)
-        }
-    }
-
-    return (
-        <div style={{ padding: 20 }}>
-            <input icon='search'
-                placeholder='Search...'
-                onChange={(e) => searchItems(e.target.value)}
-            />SEARCH JOB<br /><br />
-            {searchInput.length > 1 ? (
-                filteredResults.map((item) => {
-                    return (
-
-                        <table className="table table-bordered table-striped">
-                            <tbody>
-                                <tr key={item.id}>
-                                    <td>{item.occupationTittle}</td>
-                                    <td>{item.numberOfEmloyeesRequired}</td>
-                                    <td>{item.durationOfEmployment}</td>
-                                    <td>{item.workExperienceRequired}</td>
-                                    <td>{item.jobDiscription}</td>
-                                    <td>{item.preferedSex}</td>
-                                    <td>{item.skill}</td>
-                                    <td>
-                                        <button style={{ marginLeft: "10px" }} onClick={() => apply()} className="btn btn-success">Apply</button>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    )
-                })
-            ) : (
-                APIData.map((item) => {
-                    return (
-                        <div className="container">
-                            <div>
-                                <table className="table table-bordered table-striped">
-                                    <thead className="thead-dark">
-                                        <tr>
-                                            <th>Occupation Tittle </th>
-                                            <th>Employee Needed</th>
-                                            <th>Duration of Employee</th>
-                                            <th>Experience Required</th>
-                                            <th>Job Description</th>
-                                            <th>Preferred Sex</th>
-                                            <th>Skill Required</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {
-                                            <tr key={item.id}>
-                                                <td>{item.occupationTittle}</td>
-                                                <td>{item.numberOfEmloyeesRequired}</td>
-                                                <td>{item.durationOfEmployment}</td>
-                                                <td>{item.workExperienceRequired}</td>
-                                                <td>{item.jobDiscription}</td>
-                                                <td>{item.preferedSex}</td>
-                                                <td>{item.skill}</td>
-                                            </tr>
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    )
-                })
-            )}
-        </div>
+    return(
+        <div className="container">
+      <h3>Job Advertisement Details</h3>
+      <hr />
+      <div>
+        <table className="table table-bordered table-striped">
+          <thead className="thead-dark">
+            <tr>
+              <th>Occupation Title </th>
+              <th>Vacancy Available</th>
+              <th>Salary</th>
+              <th>Duration of Employment</th>
+              <th>Experience Required</th>
+              <th>Job Description</th>
+              <th>Skill Required</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+              APIData.map(job => (
+                <tr key={job.id}>
+                  <td>{job.occupationTitle}</td>
+                  <td>{job.vacancyAvailable}</td>
+                  <td>{job.salary==undefined?"Not Mentioned":job.salary}</td>
+                  <td>{job.durationOfEmployment}</td>
+                  <td>{job.workExperienceRequired}</td>
+                  <td>{job.description}</td>
+                  <td>{job.skill===""?"Not Mentioned":job.skill}</td>
+                  <td>
+                    <button style={{ marginLeft: "10px" }} type="button" onClick={(e) => apply(job.id)} className="btn btn-success">Apply</button>
+                  </td>
+                </tr>
+              ))
+            }
+          </tbody>
+        </table>
+      </div>
+    </div>
     )
 }

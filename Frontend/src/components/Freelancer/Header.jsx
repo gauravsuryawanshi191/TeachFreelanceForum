@@ -9,11 +9,11 @@ function Header() {
             <img
               src='/Assets/Images/HomePage/Logo2.png'
               alt='logo'
-              width='30'
-              height='30'
+              width='220'
+              height='40'
               className='d-inline-block align-text-top'
             />
-            &nbsp;&nbsp; TeachFreelance Forum
+          
           </a>
           <button
             className='navbar-toggler'

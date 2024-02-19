@@ -1,192 +1,148 @@
 import React from "react";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { useEffect } from "react/cjs/react.development";
 import axios from 'axios';
 
-const Apply=()=>{
+const Apply = () => {
+    const e = JSON.parse(window.localStorage.getItem('email'));
+    //console.log(e);
+    axios.get(`http://localhost:8080/api/Freelancer/email/${e}`)
+      .then(response => {
+        //console.log('Printing  data : ', response.data);
+        setFirstName(response.data.firstName);
+        setLastName(response.data.lastName);
+        setEmail(response.data.email);
+        //setExperience(response.data.experience);
+        setGraduationMarks(response.data.graduationMarks);
+        setPassoutYear(response.data.passoutYear);
+        setQualification(response.data.qualification);
+        setUniversity(response.data.university);
+        setFreeId(response.data.id);
 
-const[firstName, setFirstName] = useState('');
-const[lastName,setLastName]=useState('');
-const[sex, setSex] = useState('');
-const[maritalStatus, setMaritalStatus] = useState('');
-const[email, setEmail] = useState('');
-const[experience, setExperience] = useState('');
-const[interestedFields, setInterestedFields] = useState('');
-const[graduationMarks, setGraduationMarks] = useState('');
-const[passoutYear, setPassoutYear] = useState('');
-const[applyingForJob, setApplyingForJob] = useState('');
-const[qualification,setQualification] = useState('');
-const[university,setUniversity] = useState('');
+      })
+      .catch(error => {
+        console.log('Something went wrong', error);
+      })
 
-const {id} = useParams();
+    const [freeId, setFreeId]= useState('');
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
+    const [email, setEmail] = useState('');
+    const [graduationMarks, setGraduationMarks] = useState('');
+    const [passoutYear, setPassoutYear] = useState('');
+    const [qualification, setQualification] = useState('');
+    const [university, setUniversity] = useState('');
+    const advId= useParams();
+    console.log("AdvId: ",advId);
 
-const a=JSON.parse(window.localStorage.getItem('apply'));
+    const a = JSON.parse(window.localStorage.getItem('apply'));
 
-const applyJob=(e)=>{
+    const applyJob = (e) => {
 
-    const apply= {firstName, lastName,sex, maritalStatus,email,experience,interestedFields,graduationMarks,passoutYear,qualification,university,applyingForJob, id};
+        console.log("advId: ",advId.ItemId);
+        console.log("freeId: ",freeId);
+        e.preventDefault();
 
-    e.preventDefault();
+        axios.post(`http://localhost:8080/api/Freelancer/apply/${freeId}/${advId.ItemId}`, {})
+            .then(
+                response => {
+                    console.log(" Successfully Applied", response.data);
+                    alert(` Successfully Applied for job`);
 
-    axios.post('http://localhost:8080/api/Institute/add',apply)
-    .then(
-        response => {
-            console.log(" Successfully Applied", response.data);
-            alert(` Successfully Applied for job`);
+                    window.location.replace("/freelancer/dashboard/search-job");
+                }
+            )
+            .catch(error => {
+                alert('You have already applied for this post');
+                window.location.replace("/freelancer/dashboard/search-job");
+            })
+    }
 
-            window.location.replace("/freelancer/dashboard");
-        }
-    )
-    .catch(error => {
-        console.log('Something went wroing', error);
-    })
-}
-
-return (
-    <div className="container">
+    return (
+        <div className="container">
             <h3>Add Details For Applying to {a} Job</h3>
-            <hr/>
+            <hr />
             <form>
+
                 <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="firstName"
+                    <div className="material-textfield mb-3">
+                        <input type="text" className="input form-control"
                         value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        placeholder="Enter first name"
-                    /><br></br>
+                        // onChange={(e)=> setFirstName(e.target.value)}
+                        />
+                        <label className="label">First Name</label>
+                    </div>
                 </div>
 
                 <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="lastName"
+                    <div className="material-textfield mb-3">
+                        <input type="text" className="input form-control"
                         value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        placeholder="Enter last name"
-                    /><br></br>
+                        //onChange={(e)=> setLastName(e.target.value)}
+                        />
+                        <label className="label">Last Name</label>
+                    </div>
                 </div>
 
-                <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="sex"
-                        value={sex}
-                        onChange={(e) => setSex(e.target.value)}
-                        placeholder="Enter sex"
-                    /><br></br>
-                </div>
 
                 <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="maritalStatus"
-                        value={maritalStatus}
-                        onChange={(e) => setMaritalStatus(e.target.value)}
-                        placeholder="Enter marital status"
-                    /><br></br>
-                </div>
-
-                <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="email"
+                    <div className="material-textfield mb-3">
+                        <input type="text" className="input form-control"
                         value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="Enter email"
-                    /><br></br>
-                </div> 
-                
-                <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="experience"
-                        value={experience}
-                        onChange={(e) => setExperience(e.target.value)}
-                        placeholder="Enter experience"
-                    /><br></br>
+                        // onChange={(e)=> setEmail(e.target.value)}
+                        />
+                        <label className="label">Email</label>
+                    </div>
                 </div>
 
-                <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="interestedFields"
-                        value={interestedFields}
-                        onChange={(e) => setInterestedFields(e.target.value)}
-                        placeholder="Enter interest fields"
-                    /><br></br>
-                </div> 
 
-                <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="graduationMarks"
-                        value={graduationMarks}
-                        onChange={(e) => setGraduationMarks(e.target.value)}
-                        placeholder="Enter graduation Marks"
-                    /><br></br>
-                </div>
-                
-                <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="passoutYear"
-                        value={passoutYear}
-                        onChange={(e) => setPassoutYear(e.target.value)}
-                        placeholder="Enter passout Year"
-                    /><br></br>
-                </div>
-                   
-                <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="qualification"
+                {/* <div className="form-group">
+                    <div className="material-textfield mb-3">
+                        <input type="text" className="input form-control"
                         value={qualification}
-                        onChange={(e) => setQualification(e.target.value)}
-                        placeholder="Enter Qualification"
-                    /><br></br>
-                </div>
-                         
-                <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="university"
-                        value={university}
-                        onChange={(e) => setUniversity(e.target.value)}
-                        placeholder="Enter university"
-                    /><br></br>
+                        // onChange={(e)=> setQualification(e.target.value)}
+                        />
+                        <label className="label">Qualification</label>
+                    </div>
                 </div>
 
                 <div className="form-group">
-                    <input 
-                        type="text" 
-                        className="form-control col-4"
-                        id="applyingForJob"
-                        value={applyingForJob}
-                        onChange={(e) => setApplyingForJob(e.target.value)}
-                        placeholder="Enter applying for job"
-                    /><br></br>
-                </div> 
+                    <div className="material-textfield mb-3">
+                        <input type="text" className="input form-control"
+                        value={graduationMarks}
+                        // onChange={(e)=> graduationMarks(e.target.value)}
+                        />
+                        <label className="label">Graduation Marks</label>
+                    </div>
+                </div>
+
+                <div className="form-group">
+                    <div className="material-textfield mb-3">
+                        <input type="text" className="input form-control"
+                        value={university}
+                        // onChange={(e)=> setUniversity(e.target.value)}
+                        />
+                        <label className="label">University</label>
+                    </div>
+                </div>
+
+                <div className="form-group">
+                    <div className="material-textfield mb-3">
+                        <input type="text" className="input form-control"
+                        value={passoutYear}
+                        // onChange={(e)=> setPassoutYear(e.target.value)}
+                        />
+                        <label className="label">Passout Year</label>
+                    </div>
+                </div> */}
 
                 <div >
                     <button onClick={(e) => applyJob(e)} className="btn btn-primary">Apply</button>
                 </div>
             </form>
-            <hr/>
+            <hr />
             <Link to="/freelancer/dashboard/search-job">Back</Link>
         </div>
-)
+    )
 }
 export default Apply;
