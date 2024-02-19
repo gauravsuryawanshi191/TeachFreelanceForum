@@ -21,19 +21,27 @@ export default function DeleteFreelancer() {
 
     const saveChange=(name,id)=>{
         console.log(name,id);
-        axios.delete(`http://localhost:8080/api/Freelancer/delete/${id}`)
-        .then(response=>{
-            console.log('Printing  data', response.data);
-            setFreelancer(response.data);
-            alert("Deleted Successfully");
-            window.location.replace("/");
-        //fetching applicant details
-        //add -> after deleting user, redirect to home page
-        })
-        .catch(error => {
-            console.log('Something went wrong', error);
-        })  
-        
+        var answer = window.confirm("Are you sure?")
+        if (answer)
+        {
+          axios.delete(`http://localhost:8080/api/Freelancer/delete/${id}`)
+          .then(response=>{
+              console.log('Printing  data', response.data);
+              setFreelancer(response.data);
+              alert("Your account is deleted successfully");
+              window.location.replace("/");
+          //fetching applicant details
+          //add -> after deleting user, redirect to home page
+          })
+          .catch(error => {
+              console.log('Something went wrong', error);
+          })
+        }
+        else
+        {
+          alert("Account deletion failed");
+        }
+
         // axios.get(`http://localhost:8080//api/Applicant/${name}`)
         // .then((response) => {
         //     console.log(response.data.id);
@@ -78,7 +86,7 @@ export default function DeleteFreelancer() {
         }
         </tbody>
       </table>
-      
+       
     </div>
   </div>
   )
