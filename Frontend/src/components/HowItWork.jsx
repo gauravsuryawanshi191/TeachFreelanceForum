@@ -21,7 +21,7 @@ export default function HowItWork() {
                 alt='user-icon'
                 className=''
               />
-              <h4>Create an Account</h4>
+              <h4>Create an Account For Freelancer</h4>
               <p>
                 Go to The <a href='/login'>Login Page</a>, if You Already Have an
                 Account Just Sign in to Your Account Otherwise You Can Create a

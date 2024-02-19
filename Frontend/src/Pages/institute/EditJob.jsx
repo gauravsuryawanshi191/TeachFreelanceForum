@@ -12,26 +12,12 @@ const EditJob=()=>{
     const[preferedGender, setPreferedGender] = useState('');
     const[vacancyAvailable, setVacancyAvailable] = useState('');
     const[skill, setSkill] = useState('');
+    const [errors, setErrors] = useState({});
+
     const {instituteId, advertisementId} = useParams();
 
-    const updateJob=(e)=>{
-        const postJob = {occupationTitle, salary, durationOfEmployment, workExperienceRequired, description, preferedGender, vacancyAvailable, skill, advertisementId};
-        e.preventDefault();
-        //JobService.create(postJob)
-        axios.put(`http://localhost:8080/api/Advertisement/${instituteId}/${advertisementId}`,postJob)
-        .then(
-            response => {
-                console.log("Job updated successfully", response.data);
-                window.location.replace("/institute/dashboard/view-all-jobs");           
-            }
-        )
-        .catch(error => {
-            console.log('something went wroing', error);
-        })
-    }
 
     useEffect(() => {
-        //console.log(id);
         if(advertisementId) {
             axios.get(`http://localhost:8080/api/Advertisement/get/${advertisementId}`)
                 .then(job => {
@@ -55,6 +41,63 @@ const EditJob=()=>{
         setPreferedGender(event.target.value);
     }
 
+    const validateForm = () => {
+        console.log("in validate form")
+        const errors = {};
+        let isValid = true;
+
+        if (!occupationTitle.trim()) {
+            errors.occupationTitle = 'Occupation title is required';
+            isValid = false;
+        }
+        if (salary==undefined) {
+            errors.salary = 'Salary is required';
+            isValid = false;
+        }
+        if (durationOfEmployment==undefined) {
+            errors.durationOfEmployment = 'Duration of employment is required';
+            isValid = false;
+        }
+        if (workExperienceRequired==undefined) {
+            errors.workExperienceRequired = 'Work experience required is required';
+            isValid = false;
+        }
+        if (!description.trim()) {
+            errors.description = 'Description is required';
+            isValid = false;
+        }
+        if (!preferedGender) {
+            errors.preferedGender = 'Preferred gender is required';
+            isValid = false;
+        }
+        if (vacancyAvailable==undefined) {
+            errors.vacancyAvailable = 'Vacancy available is required';
+            isValid = false;
+        }
+        setErrors(errors);
+        console.log(errors);
+        return isValid;
+    };
+
+    const updateJob=(e)=>{
+        e.preventDefault();
+        if (validateForm()) {
+            const postJob = {occupationTitle, salary, durationOfEmployment, workExperienceRequired, description, preferedGender, vacancyAvailable, skill, advertisementId};
+            e.preventDefault();
+        
+            axios.put(`http://localhost:8080/api/Advertisement/${instituteId}/${advertisementId}`,postJob)
+            .then(
+                response => {
+                    console.log("Job updated successfully", response.data);
+                    window.location.replace("/institute/dashboard/view-all-jobs");           
+                }
+            )
+            .catch(error => {
+                console.log('something went wroing', error);
+            })
+        }
+    }
+    
     return(
         <div className="container">
                 <h3>Edit Job Advertisement</h3>
@@ -69,7 +112,8 @@ const EditJob=()=>{
                             onChange={(e) => setOccupationTitle(e.target.value)}
                             placeholder="Enter Occupation Title"
                             required
-                        /><br></br>
+                        />
+                        <span className="text-danger">{errors.occupationTitle}</span><br></br>
                     </div>
                    
                     <div className="form-group">
@@ -80,7 +124,9 @@ const EditJob=()=>{
                             value={salary}
                             onChange={(e) => setSalary(e.target.value)}
                             placeholder="Enter Salary"
-                        /><br></br>
+                        />
+                        <span className="text-danger">{errors.salary}</span>
+                        <br></br>
 
                     </div>
                     <div className="form-group">
@@ -94,7 +140,8 @@ const EditJob=()=>{
                             onChange={(e) => setDurationOfEmployment(e.target.value)}
                             placeholder="Enter Duration Of Employment"
                             required
-                        /><br></br>
+                        />
+                        <span className="text-danger">{errors.durationOfEmployment}</span><br></br>
                     </div>
                     <div className="form-group">
                         <input 
@@ -107,7 +154,8 @@ const EditJob=()=>{
                             onChange={(e) => setWorkExperienceRequired(e.target.value)}
                             placeholder="Enter Work Experience Required"
                             required
-                        /><br></br>
+                        />
+                        <span className="text-danger">{errors.workExperienceRequired}</span><br></br>
                     </div> 
                     <div className="form-group">
                         <input 
@@ -118,7 +166,8 @@ const EditJob=()=>{
                             onChange={(e) => setDescription(e.target.value)}
                             placeholder="Enter Job Description"
                             required
-                        /><br></br>
+                        />
+                        <span className="text-danger">{errors.description}</span><br></br>
                     </div>
                     <div className="form-group" style={{"color":"gray"}}>
                         <div className="form-check">
@@ -133,6 +182,7 @@ const EditJob=()=>{
                             <input type="radio" id="preferedGenderAny" name="preferedGender" value="Any" className="form-check-input" onChange={handleRadioChange} checked={preferedGender==="Any"}/>
                             <label htmlFor="preferedGenderAny" className="form-check-label">Any</label>
                         </div>
+                        <span className="text-danger">{errors.preferedGender}</span>
                         <br></br>
                     </div> 
 
@@ -146,7 +196,8 @@ const EditJob=()=>{
                             onChange={(e) => setVacancyAvailable(e.target.value)}
                             placeholder="Enter Vacancy Available"
                             required
-                        /><br></br>
+                        />
+                        <span className="text-danger">{errors.vacancyAvailable}</span><br></br>
                     </div>
                     
                     <div className="form-group">
@@ -157,10 +208,11 @@ const EditJob=()=>{
                             value={skill}
                             onChange={(e) => setSkill(e.target.value)}
                             placeholder="Enter Skill"
-                        /><br></br>
+                        />
+                        <span className="text-danger">{errors.skill}</span><br></br>
                     </div>
                     <div >
-                        <button type="submit" className="btn btn-primary">Save</button>
+                        <button type="submit" className="btn btn-primary">Update</button>
                     </div>
                 </form>
                 <hr/>

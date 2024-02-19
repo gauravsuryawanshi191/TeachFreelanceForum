@@ -4,7 +4,7 @@ import axios from 'axios';
 
 export default function Editprofile() {
     const [instituteName, setInstituteName] = useState('');
-    const [instituteMission, setInstituteMission] = useState('');    
+    const [instituteMission, setInstituteMission] = useState('');
     const instituteEmail = JSON.parse(window.localStorage.getItem('instituteEmail'));
 
     useEffect(() => {
@@ -22,18 +22,42 @@ export default function Editprofile() {
 
     }, [])
 
+
+
     const saveChange = (e) => {
+        //Validate institute name
+        if (instituteName.trim().length === 0) {
+            document.getElementById("InameErr").innerHTML = "<em>*Cannot be only spaces</em>";
+        }
+        else {
+            document.getElementById("InameErr").innerHTML = "";
+        }
+
+        //Validate institute mission
+        if (instituteMission.trim().length === 0) {
+            document.getElementById("ImissionErr").innerHTML = "<em>*Cannot be only spaces</em>";
+        }
+        else {
+            document.getElementById("ImissionErr").innerHTML = "";
+        }
         const updateInstitute = { instituteName, instituteMission, instituteEmail };
+        console.log(updateInstitute);
+
         e.preventDefault();
-        axios.put('http://localhost:8080/api/Institute/update', updateInstitute)
-        .then(response => {
-            alert("Details edited successfully", response.data);
-        })
-        .catch(error => {
-            console.log('Something went wrong', error);
-        })
+
+        if (document.getElementById("InameErr").innerText === "" &&
+            document.getElementById("ImissionErr").innerText === "") {
+            axios.put('http://localhost:8080/api/Institute/update', updateInstitute)
+                .then(response => {
+                   // window.localStorage.setItem("instituteName", JSON.stringify(instituteName));
+                    alert("Details edited successfully");
+                })
+                .catch(error => {
+                    console.log('Something went wrong', error);
+                })
+        }
     }
-    
+
     return (
         <div>
             <section className="col-lg-11 col-md-10 mx-auto d-block pt-5">
@@ -52,7 +76,8 @@ export default function Editprofile() {
                                                 id="instituteName"
                                                 value={instituteName}
                                                 onChange={(e) => setInstituteName(e.target.value)}
-                                            /><label className="label">Institute Name</label>
+                                            readOnly/><label className="label">Institute Name</label>
+                                            <span class="text-danger" id="InameErr"></span>
                                         </div>
                                     </div>
                                     <div className="col-sm-6">
@@ -62,6 +87,7 @@ export default function Editprofile() {
                                                 value={instituteMission}
                                                 onChange={(e) => setInstituteMission(e.target.value)}
                                             /><label className="label">Institute Mission</label>
+                                            <span class="text-danger" id="ImissionErr"></span>
                                         </div>
                                     </div>
                                 </div>
@@ -70,7 +96,7 @@ export default function Editprofile() {
                                         <div className="material-textfield mb-2">
                                             <input className="input form-control" placeholder=" " type="text"
                                                 id="instituteEmail"
-                                                value={instituteEmail} readOnly/><label className="label">Institute Email</label>
+                                                value={instituteEmail} readOnly /><label className="label">Institute Email</label>
                                         </div>
                                     </div>
                                 </div>

@@ -37,17 +37,32 @@ export default function DeleteJobs() {
   
     const deleteJob = (jobId) => {
      // window.localStorage.setItem('edit', JSON.stringify(jobId));
+     var answer = window.confirm("Are you sure?")
+     if(answer)
+     {
       axios.delete(`http://localhost:8080/api/Advertisement/${jobId}`)
       .then(response => {
         console.log('Printing data', response.data);
         window.location.replace(`/institute/dashboard/delete-job`);
+        alert("Advertisement deleted successfully");
         //setJob(response.data);
       })
       .catch(error => {
         console.log('Something went wrong', error);
       })
-      
+     }
+     else {
+      alert("Advertisement deletion failed");
+  }
+            
     }
+
+
+
+
+
+
+
   
     return (
       <div className="container">

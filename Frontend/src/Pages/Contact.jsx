@@ -40,10 +40,7 @@ const Contact = () => {
       alert('Sorry, something went wrong. Please try again later.');
     }
   };
-
-
-
-
+  
   return (
     <section >
       <div className='pt-2 text-center mb-1 ps-0 pb-0'>
