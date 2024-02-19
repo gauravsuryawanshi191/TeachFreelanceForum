@@ -1,20 +1,24 @@
 package com.app.controller;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.app.dto.AdminDTO;
+import com.app.dto.AdminAuthDTO;
 import com.app.dto.ApiResponse;
 import com.app.service.AdminService;
 
 @CrossOrigin(origins = "*")
 @RestController
 @RequestMapping("/api/Admin")
+@Validated
 public class AdminController {
 
 	@Autowired
@@ -25,9 +29,9 @@ public class AdminController {
 	}
 
 	@PostMapping("/authenticate")
-	public ResponseEntity<?> authenticateAdmin(@RequestBody AdminDTO adminDto) {
+	public ResponseEntity<?> authenticateAdmin(@Valid @RequestBody AdminAuthDTO adminDto) {
 		try{
-			AdminDTO ad = null;
+			AdminAuthDTO ad = null;
 			String em = adminDto.getEmail();
 			String pass = adminDto.getPassword();
 			if (em.trim() != null && pass.trim() != null) {
@@ -42,7 +46,7 @@ public class AdminController {
 	}
 
 	@PostMapping("/changePassword")
-	public ResponseEntity<?> changePassword(@RequestBody AdminDTO adminDto) {
+	public ResponseEntity<?> changePassword(@Valid @RequestBody AdminAuthDTO adminDto) {
 		String pass = adminDto.getPassword();
 		System.out.println(pass);
 

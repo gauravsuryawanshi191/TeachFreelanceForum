@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.app.dao.AdminRepository;
-import com.app.dto.AdminDTO;
+import com.app.dto.AdminAuthDTO;
 
 @Service
 @Transactional
@@ -19,12 +19,12 @@ public class AdminServiceImpl implements AdminService {
 	private ModelMapper mapper;
 
 	@Override
-	public AdminDTO authenticateAdmin(String email, String password) {
+	public AdminAuthDTO authenticateAdmin(String email, String password) {
 		adminRepo.findByEmail(email)
 				.orElseThrow(() -> new RuntimeException("Admin : Invalid Email"));
 		System.out.println("Email verified");
 		return mapper.map(adminRepo.findByEmailAndPassword(email, password)
-				.orElseThrow(() -> new RuntimeException("Admin Login Failed : Invalid Password")), AdminDTO.class);
+				.orElseThrow(() -> new RuntimeException("Admin Login Failed : Invalid Password")), AdminAuthDTO.class);
 	}
 
 	@Override

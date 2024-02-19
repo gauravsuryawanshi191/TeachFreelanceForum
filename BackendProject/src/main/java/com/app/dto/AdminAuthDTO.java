@@ -15,17 +15,15 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class AdminDTO {
+public class AdminAuthDTO {
 
 	@JsonProperty(access = Access.READ_ONLY)
 	private Long id;
-	@NotBlank(message = "First Name is required")
-	private String firstName;
-	@NotBlank(message = "Last Name is required")
-	private String lastName;
 	@NotBlank(message = "Email is required")
 	@Email(message = "Invalid email format")
 	private String email;
+	@JsonProperty(access = Access.READ_ONLY)
+	private String firstName;
 	@JsonProperty(access = Access.WRITE_ONLY)
 	@NotBlank(message = "Password required")
 	//@Pattern(regexp = "(/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)", message = "Invalid password")
