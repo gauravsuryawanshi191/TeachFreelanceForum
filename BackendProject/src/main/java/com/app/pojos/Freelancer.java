@@ -35,17 +35,14 @@ public class Freelancer extends BaseEntity {
 	@Column(length = 20)
 	private String city;
 
-	@Column(length = 20)
+	@Column(length = 60)
 	private String state;
 
 	@Column(length = 20)
 	private String pincode;
 
-	@Column(length = 100)
+	@Column(length = 200)
 	private String currentAddress;
-
-	@Column
-	private Double experience;
 
 	@Column
 	private Double graduationMarks;
@@ -167,14 +164,6 @@ public class Freelancer extends BaseEntity {
 		this.currentAddress = currentAddress;
 	}
 
-	public Double getExperience() {
-		return experience;
-	}
-
-	public void setExperience(Double experience) {
-		this.experience = experience;
-	}
-
 	public Double getGraduationMarks() {
 		return graduationMarks;
 	}
@@ -233,7 +222,6 @@ public class Freelancer extends BaseEntity {
 		this.state = state;
 		this.pincode = pincode;
 		this.currentAddress = currentAddress;
-		this.experience = experience;
 		this.graduationMarks = graduationMarks;
 		this.passoutYear = passoutYear;
 		this.qualification = qualification;
@@ -245,7 +233,7 @@ public class Freelancer extends BaseEntity {
 	public String toString() {
 		return "Freelancer [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", password="
 				+ password + ", mobileNumber=" + mobileNumber + ", city=" + city + ", state=" + state + ", pincode="
-				+ pincode + ", currentAddress=" + currentAddress + ", experience=" + experience + ", graduationMarks="
+				+ pincode + ", currentAddress=" + currentAddress +  ", graduationMarks="
 				+ graduationMarks + ", passoutYear=" + passoutYear + ", qualification=" + qualification
 				+ ", university=" + university + "]";
 	}

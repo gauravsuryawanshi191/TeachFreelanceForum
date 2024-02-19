@@ -17,7 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.ApiResponse;
+import com.app.dto.FreelancerAuthDTO;
 import com.app.dto.FreelancerDTO;
+import com.app.dto.FreelancerQualificationDTO;
 import com.app.service.FreelancerService;
 
 @CrossOrigin(origins = "*")
@@ -34,9 +36,9 @@ public class FreelancerController {
 	}
 
 	@PostMapping("/authenticate")
-	public ResponseEntity<?> loginFreelancer(@RequestBody FreelancerDTO freelancerDto) {
+	public ResponseEntity<?> loginFreelancer(@Valid @RequestBody FreelancerAuthDTO freelancerDto) {
 		try {
-			FreelancerDTO u = null;
+			FreelancerAuthDTO u = null;
 			String em = freelancerDto.getEmail();
 			String pass = freelancerDto.getPassword();
 			if (em != null && pass != null) {
@@ -56,24 +58,31 @@ public class FreelancerController {
 	}
 
 	@GetMapping("/{firstName}")
-	public ResponseEntity<?> getFreelancerDetailsByFirstName(@PathVariable String firstName) {
+	public ResponseEntity<?> getFreelancerDetailsByFirstName(@Valid @PathVariable String firstName) {
 		try {
 			System.out.println("in Freelancer details methods");
 			return new ResponseEntity<>(freelancer.getFreelancerDetails(firstName), HttpStatus.OK);
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
 		}
+	}
 
 	@GetMapping("/getFreelancer/{id}")
-	public Freelancer getFreelancerDetailsById(@PathVariable Long id) {
+	public ResponseEntity<?>  getFreelancerDetailsById(@Valid @PathVariable Long id) {
 		System.out.println("in Freelancer details methods by ID");
-		return freelancer.getFreelancerById(id);
+		return  ResponseEntity.status(HttpStatus.OK).body(freelancer.getFreelancerById(id));
+	}
+	
+	@GetMapping("/getResponse/{freelancerId}")
+	public ResponseEntity<?> getResponeMessage(@Valid @PathVariable Long freelancerId) {
+		System.out.println("id " +freelancerId);
+		return ResponseEntity.status(HttpStatus.OK).body(freelancer.getResponse(freelancerId));
 	}
 
 	@GetMapping("/email/{email}")
-	public ResponseEntity<?> getFreelancerDetailsByEmail(@PathVariable String email) {
+	public ResponseEntity<?> getFreelancerDetailsByEmail(@Valid @PathVariable String email) {
 		try {
-			System.out.println("in Freelancer details methods");
+			System.out.println("in Freelancer details method email");
 			return new ResponseEntity<>(freelancer.getFreelancerDetailsByEmail(email), HttpStatus.OK);
 		} catch (RuntimeException e) {
 			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
@@ -81,7 +90,7 @@ public class FreelancerController {
 	}
 
 	@PostMapping("/changePassword")
-	public ResponseEntity<?> changePassword(@RequestBody FreelancerDTO f) {
+	public ResponseEntity<?> changePassword(@Valid @RequestBody FreelancerAuthDTO f) {
 		String pass = f.getPassword();
 		System.out.println(pass);
 
@@ -104,8 +113,8 @@ public class FreelancerController {
 
 	// PutMapping: to add qualification details
 	@PutMapping("/updateQualification")
-	public ResponseEntity<?> updateQualification(@RequestBody FreelancerDTO updateFreelancerDto) {
-
+	public ResponseEntity<?> updateQualification(@Valid @RequestBody FreelancerQualificationDTO updateFreelancerDto) {
+		System.out.println("update qual" + updateFreelancerDto);
 		try {
 			return new ResponseEntity<>(freelancer.updateFreelancerQualificationDetails(updateFreelancerDto),
 					HttpStatus.ACCEPTED);
@@ -118,7 +127,7 @@ public class FreelancerController {
 	}
 
 	@DeleteMapping("/delete/{id}")
-	public ResponseEntity<?> deleteFreelancerById(@PathVariable Long id) {
+	public ResponseEntity<?> deleteFreelancerById(@Valid @PathVariable Long id) {
 		freelancer.deleteFreelancer(id);
 		return new ResponseEntity<>("deleted", HttpStatus.OK);
 	}
@@ -126,12 +135,12 @@ public class FreelancerController {
 	@GetMapping("/all")
 	public ResponseEntity<?> getAllFreelancerDetails() {
 		System.out.println("in get all user");
-		return freelancer.getAllFreelancer();
+		return  ResponseEntity.status(HttpStatus.OK).body(freelancer.getAllFreelancer());
 	}
 
 	// applying for adv
 	@PostMapping("/apply/{free_id}/{adv_id}")
-	public Integer applyForJob(@PathVariable Long free_id, @PathVariable Long adv_id) {
+	public Integer applyForJob(@Valid @PathVariable Long free_id,@Valid @PathVariable Long adv_id) {
 		System.out.println("freeId: " + free_id + " AdvId: " + adv_id);
 
 		return freelancer.applyToJob(free_id, adv_id);

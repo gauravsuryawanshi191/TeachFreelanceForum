@@ -1,13 +1,15 @@
 package com.app.dao;
 
+import java.util.List;
 import java.util.Optional;
-import java.util.*;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.app.dto.InstituteResponseDTO;
 import com.app.pojos.Freelancer;
 
 @Repository
@@ -30,10 +32,13 @@ public interface FreelancerRepository extends JpaRepository<Freelancer, Long> {
 
 	@Modifying
 	@Query(value = "insert into application_tbl values(?1,?2)", nativeQuery = true)
-	public Integer addApplication(@Param("a") Long advId, @Param("f") Long freeId);
+	Integer addApplication(@Param("a") Long advId, @Param("f") Long freeId);
 
 	@Query(value = "select distinct freelancer_tbl.* from freelancer_tbl join application_tbl on freelancer_tbl.id = application_tbl.freelancer_id \n"
 			+ "and application_tbl.advertisement_id in (select advertisement_tbl.id from advertisement_tbl where advertisement_tbl.institute_id = ?1);", nativeQuery = true)
-	public List<Freelancer> allApplications(@Param("instiId") Long instiId);
+	List<Freelancer> allApplications(@Param("instiId") Long instiId);
+
+	@Query(value = "select * from feedback_tbl where freelancer_id = ?1", nativeQuery = true)
+	Optional<InstituteResponseDTO> findResponse(@Param("freeId") Long freelancerId);
 
 }

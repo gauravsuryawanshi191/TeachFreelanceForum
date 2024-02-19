@@ -1,15 +1,5 @@
 package com.app.dto;
 
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Pattern;
-
-import org.hibernate.validator.constraints.Length;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonProperty.Access;
 
@@ -24,42 +14,14 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public class FreelancerDTO{
+public class FreelancerQualificationDTO{
 	@JsonProperty(access = Access.READ_ONLY)
 	private Long id;
-	@NotBlank(message = "First Name is required")
-	private String firstName; 
-	@NotBlank(message = "Last Name is required")
-	private String lastName;
-	@NotBlank(message = "Email is required")
-	@Email(message = "Invalid email format")
 	private String email;
-	@JsonProperty(access = Access.WRITE_ONLY)
-	@NotBlank(message = "Password required")
-	//@Pattern(regexp = "(/^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/)", message = "Invalid password.Password must contain one capital letter,one special character and one digit.")
-	@Length(min = 8,message = "Password length must be atleast of 8 characters.")
-	private String password;
-	@NotBlank(message = "Password required")
-	@Pattern(regexp ="^[6-9]\\d{9}$",message = "Invalid mobile number")
-	private String mobileNumber;
-	@NotBlank(message = "City is required")
-	private String city;
-	@NotBlank(message = "State is required")
-	private String state;
-	@NotBlank(message = "Pincode is required")
-	@Length(max = 6,min = 6 ,message = "Invalid pincode length")
-	private String pincode;
-	@NotBlank(message = "Current Address is required")
-	private String currentAddress;
 	private Double graduationMarks;
 	private Integer passoutYear;
 	private String qualification;
 	private String university;
-
-	//inverse side
-	@JsonIgnore
-	@ToString.Exclude
-	private Set<AdvertisementDTO> advertisements=new HashSet<>();
 	
 //	@Override
 //	public int hashCode() {
