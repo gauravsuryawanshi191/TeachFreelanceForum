@@ -1,7 +1,5 @@
 package com.app.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,14 +17,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.app.dto.ApiResponse;
+import com.app.dto.FreelancerDTO;
 import com.app.dto.InstituteAuthDTO;
 import com.app.dto.InstituteDTO;
+import com.app.dto.InstituteResponseDTO;
 import com.app.dto.InstituteUpdateDTO;
-import com.app.pojos.Freelancer;
-import com.app.pojos.Institute;
-import com.app.pojos.InstituteResponse;
 import com.app.service.FreelancerService;
 import com.app.service.InstituteService;
+
+
 
 @CrossOrigin(origins = "*")
 @RestController
@@ -147,33 +146,39 @@ public class InstituteController {
 	}
 
 	@PostMapping("/sendResponse/{instituteId}/{jobId}")
-	public InstituteResponse sendResponseToFreelancer(@RequestBody InstituteResponse s, @PathVariable Long instituteId,
-			@PathVariable Long jobId) {
-		Institute institute = instituteService.getInstituteById(instituteId);
-		Freelancer freelancer = freelancerService.getFreelancerById(jobId);
+	public ResponseEntity<?> sendResponseToFreelancer(@Valid @RequestBody InstituteResponseDTO s,@Valid @PathVariable Long instituteId,
+			@Valid @PathVariable Long jobId) {
+		InstituteDTO institute = instituteService.getInstituteById(instituteId);
+		FreelancerDTO freelancer = freelancerService.getFreelancerById(jobId);
 		System.out.println("1" + institute);
 		System.out.println("2 " + freelancer);
-		s.setInstitute(institute);
-		s.setFreelancer(freelancer);
-		InstituteResponse f = instituteService.addResponse(s);
+		s.setInstituteDTO(institute);
+		s.setFreelancerDTO(freelancer);
+		InstituteResponseDTO f = instituteService.addResponse(s);
 		return ResponseEntity.status(HttpStatus.OK).body(f);
 	}
 
 	// changes required
-	@GetMapping("/selectedFreelancer/{freelancerEmail}")
-	public ResponseEntity<?> getSelectedFreelancer(@Valid @PathVariable String freelancerEmail) {
-		System.out.println("in applicant details methods");
-		try {
-			return ResponseEntity.status(HttpStatus.OK).body(instituteService.findByFreelancerEmail(freelancerEmail));
-		} catch (RuntimeException e) {
-			System.out.println("in catch " + e.getMessage());
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
-		}
-	}
+	//@GetMapping("/selectedFreelancer/{freelancerEmail}")
+//	public ResponseEntity<?> getSelectedFreelancer(@Valid @PathVariable String freelancerEmail) {
+//		System.out.println("in applicant details methods");
+//		try {
+//			return ResponseEntity.status(HttpStatus.OK).body(instituteService.findByFreelancerEmail(freelancerEmail));
+//		} catch (RuntimeException e) {
+//			System.out.println("in catch " + e.getMessage());
+//			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse(e.getMessage()));
+//		}
+//	}
 
 	@GetMapping("/applicants/{instituteId}")
-	public List<Freelancer> getApplicants(@Valid @PathVariable Long instituteId) {
+	public ResponseEntity<?> getApplicants(@Valid @PathVariable Long instituteId) {
 		System.out.println("instituteId: " + instituteId);
-		return instituteService.getAllAplicant(instituteId);
+		return ResponseEntity.status(HttpStatus.OK).body(instituteService.getAllAplicant(instituteId));
+	}
+	
+	@GetMapping("/getInsti/{id}")
+	public ResponseEntity<?> getInstituteDetailsById(@Valid @PathVariable Long id) {
+		System.out.println("in get institute by Id");
+		return ResponseEntity.status(HttpStatus.OK).body(instituteService.getInstituteById(id));
 	}
 }

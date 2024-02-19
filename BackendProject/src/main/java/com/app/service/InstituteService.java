@@ -4,8 +4,8 @@ import java.util.List;
 
 import com.app.dto.FreelancerDTO;
 import com.app.dto.InstituteDTO;
+import com.app.dto.InstituteResponseDTO;
 import com.app.dto.InstituteUpdateDTO;
-import com.app.pojos.Institute;
 import com.app.pojos.InstituteResponse;
 
 public interface InstituteService {
@@ -41,7 +41,7 @@ public interface InstituteService {
 	Integer updateInstituteStatus(Long id, String status);
 
 	// send response to particular freelancer selected for the job advertisement
-	InstituteResponse addResponse(InstituteResponse s);
+	InstituteResponseDTO addResponse(InstituteResponseDTO s);
 
 	// to show response according to firstName of freelancer
 	InstituteResponse findByFreelancerEmail(String freelancerEmail);

@@ -15,8 +15,8 @@ import com.app.dao.InstituteRepository;
 import com.app.dao.InstituteResponseRepository;
 import com.app.dto.FreelancerDTO;
 import com.app.dto.InstituteDTO;
+import com.app.dto.InstituteResponseDTO;
 import com.app.dto.InstituteUpdateDTO;
-import com.app.pojos.Freelancer;
 import com.app.pojos.Institute;
 import com.app.pojos.InstituteResponse;
 
@@ -100,8 +100,8 @@ public class InstituteServiceImpl implements InstituteService {
 	}
 
 	@Override
-	public InstituteResponse addResponse(InstituteResponse s) {
-		return feedback.save(s);
+	public InstituteResponseDTO addResponse(InstituteResponseDTO s) {
+		return mapper.map(feedback.save(mapper.map(s,InstituteResponse.class)),InstituteResponseDTO.class);
 	}
 
 	@Override
