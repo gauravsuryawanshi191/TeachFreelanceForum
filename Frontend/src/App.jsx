@@ -4,13 +4,33 @@ import Layout from "./components/Layout";
 import Jumbotran from "./components/Jumbotran";
 import HowItWork from "./components/HowItWork";
 import Login from "./Pages/Login";
-import JobList from "./Pages/JobList";
 import Register from "./Pages/Register";
 import Contact from "./Pages/Contact";
 import ChangePasswordDashboard from "./Pages/ChangePassword";
 import Error from "./Pages/Error";
-import InstituteLogin from "./Pages/InstituteLogin";
+import InstituteLogin from "./Pages/InstituteLogin"; 
 import InstituteRegister from "./Pages/InstituteRegister";
+
+import InstituteDashboardLayout from "./components/institute/Layout";
+import InstituteDashboard from "./Pages/institute/Dashboard";
+import InstituteApplicantsPerJob from "./Pages/institute/ApplicantsPerJob";
+import InstituteChangePassword from "./Pages/institute/ChangePassword";
+import InstitutePostJob from "./Pages/institute/PostJob";
+import InstituteViewAllJobs from "./Pages/institute/viewAllJobs";
+import InstituteEditJob from "./Pages/institute/EditJob";
+import InstituteDeleteJobs from "./Pages/institute/DeleteJobs";
+import InstituteSendMessage from "./Pages/institute/SendMessage";
+
+import FreelancerLayout from "./components/Freelancer/Layout";
+import GetApplicantDetails from "./Pages/Freelancer/Dashboard";
+import FreelancerJobsApplied from "./Pages/Freelancer/JobsApplied";
+import FreelancerChangePassword from "./Pages/Freelancer/ChangePassword";
+import AddQualification from "./Pages/Freelancer/AddQualification";
+import SearchJob from "./Pages/Freelancer/SearchJob";
+import Apply from "./Pages/Freelancer/Apply";
+import DeletedAcc from "./Pages/Freelancer/DeletedAcc";
+import DeleteFreelancer from "./Pages/Freelancer/DeleteFreelancer";
+import CheckResponse from "./Pages/Freelancer/CheckResponse";
 
 //Admin imports
 import AdminDashboardLayout from "./components/Admin/Layout";
@@ -19,12 +39,15 @@ import PasswordChange from "./Pages/Admin/PasswordChange";
 import GetAllFreelancerDetails from "./Pages/Admin/GetAllFreelancerDetails";
 import InstituteVerify from "./Pages/Admin/InstituteVerify";
 import DeleteInstitute from "./Pages/Admin/DeleteInstitute";
+import AdminLogin from "./Pages/Admin/AdminLogin";
+import InstituteEditprofile from "./Pages/institute/Editprofile";
+
 
 const App = () => {
   return (
     <>
       <Routes>
-        <Route path="/" element={<Layout />}>
+        <Route path='/' element={<Layout />}>
           <Route index element={
               <>
                 <Jumbotran />
@@ -32,22 +55,51 @@ const App = () => {
               </>
             }
           />
-          <Route path="login" element={<Login />} />
-          <Route path="institute-login" element={<InstituteLogin />} />
-          <Route path="register" element={<Register />} />
-          <Route path="institute-register" element={<InstituteRegister />} />
-          <Route path="contact" element={<Contact />} />
-          <Route path="jobs" element={<JobList />} />
-          <Route path="ChangePassword" element={<ChangePasswordDashboard />} />
-          <Route path="*" element={<Error />} />
+          <Route path='admin-login' element={<AdminLogin />} />
+          <Route path='login' element={<Login />} />
+          <Route path='institute-login' element={<InstituteLogin />} />
+          <Route path='register' element={<Register />} />
+          <Route path='institute-register' element={<InstituteRegister/>} />
+          <Route path='contact' element={<Contact />} />
+          
+          <Route path='ChangePassword' element={<ChangePasswordDashboard/>} />
+          <Route path='*' element={<Error />} />
         </Route>
 
-        <Route path="/Admin/dashboard" element={<AdminDashboardLayout />}>
-          <Route index element={<AdminDashboard />} />
-          <Route path="institute-verify" element={<InstituteVerify />} />
-          <Route path="institute-delete" element={<DeleteInstitute />} />
-          <Route path="change-adminpassword" element={<PasswordChange />} />
-          <Route path="get-freelancer" element={<GetAllFreelancerDetails />} />
+
+        <Route path='/freelancer/dashboard' element={<FreelancerLayout />}>
+          <Route index element={<GetApplicantDetails />} />
+          <Route path='job-applied' element={<FreelancerJobsApplied />} />
+          <Route path='AddQualification' element={<AddQualification />} />
+          <Route path='change-password' element={<FreelancerChangePassword />} />        
+          <Route path='search-job' element={<SearchJob/>} /> 
+          <Route path='apply-job/:ItemId' element={<Apply/>} /> 
+          <Route path='delete-freelancer' element={<DeleteFreelancer/>} /> 
+          <Route path='acc-deleted' element={<DeletedAcc/>} />
+          <Route path='check-response' element={<CheckResponse/>} />
+        </Route>
+
+        <Route path='/institute/dashboard' element={<InstituteDashboardLayout/>}>
+          <Route index element={<InstituteDashboard />} />
+          <Route path='edit-profile' element={<InstituteEditprofile />} />
+          <Route path='applicants-per-job' element={<InstituteApplicantsPerJob />} />
+          <Route path='change-password' element={<InstituteChangePassword />} />
+          <Route path='post-job' element={<InstitutePostJob />} />
+          <Route path='view-all-jobs' element={<InstituteViewAllJobs />} />
+          <Route path='edit-job' element={<InstituteEditJob />} />
+          <Route path='edit-job/:instituteId/:advertisementId' element={<InstituteEditJob />} />
+          <Route path='delete-job' element={<InstituteDeleteJobs />} />
+          <Route path='send-message' element={<InstituteSendMessage />} />
+          <Route path='send-message/:instituteId/:jobId' element={<InstituteSendMessage />} />
+          
+        </Route>
+
+        <Route path='/Admin/dashboard' element={<AdminDashboardLayout/>}>
+          <Route index element={<AdminDashboard/>} />
+          <Route path='institute-verify' element={<InstituteVerify/>} /> 
+          <Route path='institute-delete' element={<DeleteInstitute/>} /> 
+          <Route path='change-adminpassword' element={<PasswordChange />} />
+          <Route path='get-freelancer' element={<GetAllFreelancerDetails/>} />
         </Route>
       </Routes>
     </>

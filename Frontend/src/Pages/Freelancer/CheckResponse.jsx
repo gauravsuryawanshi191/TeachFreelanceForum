@@ -3,17 +3,16 @@ import axios from 'axios';
 
 const CheckResponse = () => {
 
-  const [user, setUser] = useState([]);
+  const [freelancerId, setFreelancerId] = useState('');
+  const [instituteResponse, setInstituteResponse] = useState([]);
+
   const init = () => {
-
-    const e = JSON.parse(window.localStorage.getItem('freelancer'));
-
+    const e = JSON.parse(window.localStorage.getItem('email'));
     console.log(e);
-
-    axios.get(`http://localhost:8080/api/Institute/selected/${e}`)
+    axios.get(`http://localhost:8080/api/Freelancer/email/${e}`)
       .then(response => {
-        console.log('Printing  data', response.data);
-        setUser(response.data);
+        console.log('Printing  data', response.data.id);
+        setFreelancerId(response.data.id);
       })
       .catch(error => {
         console.log('Something went wrong', error);
@@ -24,8 +23,24 @@ const CheckResponse = () => {
     init();
   }, []);
 
+  //const showResponses = (e)=>{
+    useEffect(()=>{
+    console.log(freelancerId)
+    axios.get(`http://localhost:8080/api/Freelancer/getResponse/${freelancerId}`)
+      .then(response => {
+      console.log('Printing inst data', response.data);
+        //console.log("id ", response.data.institute.id);
+        setInstituteResponse(response.data);
+        console.log('Printing inst data', instituteResponse);
+      })
+      .catch(error => {
+        console.log('Something went wrong', error);
+      })
+  },[freelancerId])
+
   return (
     <div className="container">
+      
       <h3>Response</h3>
       <hr />
       <div>
@@ -38,13 +53,12 @@ const CheckResponse = () => {
           </thead>
           <tbody>
             {
-              //change this thing after changing pojo==========================================
-              // user.map(user => (
-              <tr key={user.id}>
-                <td>{user.companyName}</td>
-                <td>{user.comment}</td>
+            instituteResponse.map((institute,index) => (
+              <tr key={index}>
+                <td>{institute.institute.instituteName}</td>
+                <td>{institute.comment}</td>
               </tr>
-              // ))
+              ))
             }
           </tbody>
         </table>

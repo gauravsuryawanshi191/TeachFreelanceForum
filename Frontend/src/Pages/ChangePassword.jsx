@@ -33,7 +33,8 @@ export default function ChangePassword(){
         const data = {email, password}
         try {
               const response="";
-              axios.post('http://localhost:8080/api/User/forget', data)
+              //Institute change password 
+              axios.post('http://localhost:8080/api/Freelancer/changePassword', data)
               .then((response)=>{
                 console.log(response.data);
               })

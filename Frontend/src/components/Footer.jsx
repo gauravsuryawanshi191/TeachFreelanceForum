@@ -1,6 +1,16 @@
 import React from "react";
 
 function Footer() {
+
+  //display a msg on clicking a button for 5 seconds and then hide it
+  const [showMsg, setShowMsg] = React.useState(false);  
+  function handleClick() {
+    setShowMsg(true);
+    setTimeout(() => {
+      setShowMsg(false);
+    }, 5000);
+  }
+
   return (
     <>
       <footer className='text-center text-lg-start bg-light'>
@@ -12,29 +22,28 @@ function Footer() {
                   <i className='fas fa-gem me-3'></i>TeachFreelance Forum Portal
                 </h6>
                 <p style={{ textAlign: "justify" }}>
-                  TeachFreelance Forum : TeachFreelance Forum Portal is a one-stop solution
+                  TeachFreelance Forum : This Portal is a one-stop solution
                   that bridges the gap between institutes and freelancers.
                 </p>
               </div>
               <div className='col-md-2 col-lg-2 col-xl-2 mx-auto mb-4'>
                 <h6 className='text-uppercase fw-bold mb-4'>Useful Links</h6>
                 <p>
-                  <a href='/blog' className='text-reset'>
-                    Blog
+                  <a href='/institute-register' className='text-reset'>
+                    Institute Registration
                   </a>
                 </p>
                 <p>
                   <a href='/register' className='text-reset'>
-                    Register
+                    Freelancer Registration
                   </a>
                 </p>
                 <p>
-                  <a href='/jobs' className='text-reset'>
-                    Search Jobs
+                  <a href='/' className='text-reset'>
+                    Home
                   </a>
                 </p>
               </div>
-              
               <div className='col-md-4 col-lg-3 col-xl-3 mx-auto mb-md-0 mb-4'>
                 <h6 className='text-uppercase fw-bold mb-4'>
                   Subscribe to Newsletter
@@ -43,38 +52,24 @@ function Footer() {
                   <div className='input-group mb-3'>
                     <input
                       className='form-control'
-                      type='text'
+                      type='email'
                       placeholder='Email Id'
                       aria-label="Recipient's username"
                       aria-describedby='button-addon2'
                     />
-                    <button
+                    <button onClick={handleClick}
                       className='btn btn-success'
                       id='button-addon2'
                       type='button'
                     >
                       <i className='fas fa-paper-plane'></i>
-                    </button>
+                    </button>                                                
                   </div>
                 </form>
+                <span className="text-success " id="LNErr">{showMsg && <p>Successfully subscribed</p>}</span>
                 <div>
-                  <a href='/' className='me-4 text-reset'>
-                    <i className='fab fa-facebook-f'></i>
-                  </a>
-                  <a href='/' className='me-4 text-reset'>
-                    <i className='fab fa-twitter'></i>
-                  </a>
-                  <a href='/' className='me-4 text-reset'>
-                    <i className='fab fa-google'></i>
-                  </a>
-                  <a href='/' className='me-4 text-reset'>
-                    <i className='fab fa-instagram'></i>
-                  </a>
-                  <a href='/' className='me-4 text-reset'>
-                    <i className='fab fa-linkedin'></i>
-                  </a>
-                  <a href='/' className='me-4 text-reset'>
-                    <i className='fab fa-github'></i>
+                  <a href='https://github.com/gauravsuryawanshi191/TeachFreelanceForum' className='me-4 text-reset'>
+                    <i className='fab fa-github'></i>Github
                   </a>
                 </div>
               </div>
@@ -82,7 +77,9 @@ function Footer() {
           </div>
         </section>
         <div className='text-center p-2 bg-secondary text-white'>
-          Designed by <br/> TechFreelance Forum team
+        <span> © 2024 TechFreelance Forum. All rights are reserved</span>
+          
+
         </div>
       </footer>
     </>

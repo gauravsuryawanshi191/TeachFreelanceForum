@@ -9,8 +9,7 @@ export default function Error() {
         </h1>
         <div className='col-lg-6 mx-auto'>
           <p className='lead mb-4'>
-            Thank You For Being patient. We are doing Some Work on the Site and
-            will be back Soon
+            Thank You For Being patient. We are currently working on the site and will be back soon.
           </p>
           <div className='input-group'>
             <input
